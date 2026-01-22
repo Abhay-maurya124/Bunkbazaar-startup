@@ -6,8 +6,6 @@ function App() {
 
   return (
     <>
-              <Pagination />
-
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />

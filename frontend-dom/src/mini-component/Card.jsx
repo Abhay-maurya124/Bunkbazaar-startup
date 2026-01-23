@@ -4,13 +4,12 @@ const Card = (prop) => {
     return (
         <div className="flex justify-center p-4">
             
-            <div className="max-w-xs bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
+            <div className=" bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
                 <img
                     src={prop.data.thumbnail}
                     alt="Card Image"
                     className="w-full h-44 object-cover"
                 />
-
                 <div className="p-4 space-y-2">
                     <h4 className="text-lg font-semibold text-gray-800">
                         {prop.data.title}

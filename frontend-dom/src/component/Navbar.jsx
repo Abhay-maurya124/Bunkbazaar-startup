@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import logo from '../Assets/logo.png'
 const Navbar = () => {
     return (
-        <div className='px-9 text-lg text-blue-100 font-semibold  font-sans  bg-gradient-to-r from-[#000]/80 to-[#04293b]'>
+        <div className='px-9 text-lg text-blue-100 font-semibold  font-sans  bg-gradient-to-r from-[#000]/80 to-[#04293b] sticky'>
             <nav className='flex justify-around items-center h-30'>
                 <div className='flex  gap-5'>
                     <div className='flex items-center tracking-tighter'>

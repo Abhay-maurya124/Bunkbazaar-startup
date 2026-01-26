@@ -1,13 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import student from '../Assets/student.png'
 import { IoIosPerson } from "react-icons/io";
-import { FaShoppingCart } from "react-icons/fa";
-import { PiContactlessPaymentFill } from "react-icons/pi";
+import { FaDropbox, FaShoppingCart } from "react-icons/fa";
+import { PiArrowDownBold, PiArrowElbowDownLeftBold, PiContactlessPaymentFill } from "react-icons/pi";
 import { GiTrade } from "react-icons/gi";
+import { Contextprovider } from '../../NewContext/NewContext';
+import { FaSearch } from "react-icons/fa";
+import Footer from './Footer';
 
 const hero = () => {
+  const [search, setsearch] = useState('')
+  const { Product = [] } = useContext(Contextprovider);
+  const uniqueCategory = Product.map((item) => item.category)
+  const unique = [...new Set(uniqueCategory)];
+  const slicedata = Product.slice(10, 20)
+  const slicedis = Product.map((item) => item.description)
+  const slicediscription = slicedis.slice(10, 20);
 
+  const handlesearch = (e) => {
 
+  }
   return (
     <>
       <div className=''>
@@ -79,8 +91,49 @@ const hero = () => {
             </div>
           </div>
         </div>
-
+        <div className='h-60  text-center my-10'>
+          <h2 className='text-5xl font-bold my-7'>Some Popular search's</h2>
+          <div className='flex items-center justify-center mx-50  gap-2 my-2'>
+            <input type="text" className='border-1 rounded w-full h-10 outline-none px-10 text-lg' onChange={handlesearch} />
+            <p className='h-10 text-3xl text-center p-4 rounded-lg py-1'><FaSearch /></p>
+          </div>
+          <div className="w-full h-40  overflow-none px-40 text-center">
+            <div className="flex flex-wrap gap-4 py-4 px-6 whitespace-nowrap justify-center">
+              {unique.length > 0 &&
+                unique.map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="bg-white text-lg font-medium text-gray-800 px-6 py-2 rounded-full shadow-lg hover:bg-gray-100 cursor-pointer"
+                  >
+                    <p>{item}</p>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
+        <div className="h-full mt-40 w-full  flex justify-center items-start p-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 text-center">
+            {slicedata.map((item, idx) => (
+              <div key={idx} className=" rounded-3xl shadow-lg flex flex-col justify-center items-center p-4">
+                <img
+                  src={item.images[0]}
+                  alt={item.title}
+                  className="h-40 w-40 object-cover mb-2"
+                />
+                <p className="text-2xl font-semibold">{item.title}</p>
+                <p>
+                  {slicediscription[idx].length > 60
+                    ? slicediscription[idx].slice(0, 60) + "..."
+                    : slicediscription[idx]}
+                </p>              </div>
+            ))}
+          </div>
+        </div>
+        <div className="text-xl h-20 flex items-center justify-center">
+          <p className='bg-gradient-to-t  from-[#fbe07f] to-[#fff] w-120 text-center rounded-2xl'> Explore All <PiArrowDownBold /></p>
+        </div>
       </div>
+      <Footer />
     </>
   )
 }

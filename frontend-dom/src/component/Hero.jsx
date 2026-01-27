@@ -11,15 +11,16 @@ import Footer from './Footer';
 const hero = () => {
   const [search, setsearch] = useState('')
   const { Product = [] } = useContext(Contextprovider);
-  const uniqueCategory = Product.map((item) => item.category)
-  const unique = [...new Set(uniqueCategory)];
-  const slicedata = Product.slice(10, 20)
+  // const uniqueCategory = Product.map((item) => item.category)
+  // const unique = [...new Set(uniqueCategory)];
   const slicedis = Product.map((item) => item.description)
   const slicediscription = slicedis.slice(10, 20);
 
-  const handlesearch = (e) => {
+  const filterproduct = Product.filter((item) => {
+    const matchsearch = item.title.toLowerCase().includes(search.toLowerCase())
 
-  }
+    return matchsearch;
+  }).slice(10, 20);
   return (
     <>
       <div className=''>
@@ -40,12 +41,11 @@ const hero = () => {
             </p>
 
             <div className='flex text-2xl mt-10 gap-3.5 font-bold'>
-              <button className="h-20  w-2xs rounded-4xl  hover:bg-amber-200 
-            transition-all ease-in-out
-            bg-gradient-to-r from-[#eee] to-[#333]
-              focus:outline-none active:scale-95 ring-[#e0cc10]
-              duration-500">
-                Explore Items
+              <button className="inline-flex items-center gap-3 px-5 py-2 rounded-full font-semibold
+                       bg-gradient-to-r from-amber-400 to-yellow-300 text-slate-900
+                       shadow-md hover:translate-y-[-2px] transition-transform focus:outline-none
+                       focus:ring-4 focus:ring-amber-200">
+                Get Started
               </button>
 
               <button className='h-20  w-2xs rounded-4xl  hover:bg-amber-200 
@@ -91,17 +91,24 @@ const hero = () => {
             </div>
           </div>
         </div>
-        <div className='h-60  text-center my-10'>
+        <div className='  text-center '>
           <h2 className='text-5xl font-bold my-7'>Some Popular search's</h2>
           <div className='flex items-center justify-center mx-50  gap-2 my-2'>
-            <input type="text" className='border-1 rounded w-full h-10 outline-none px-10 text-lg' onChange={handlesearch} />
+            <input type="text" className='border-1 rounded w-full h-10 outline-none px-10 text-lg'
+              value={search}
+              onChange={(e) => setsearch(e.target.value)} />
             <p className='h-10 text-3xl text-center p-4 rounded-lg py-1'><FaSearch /></p>
           </div>
-          <div className="w-full h-40  overflow-none px-40 text-center">
-            <div className="flex flex-wrap gap-4 py-4 px-6 whitespace-nowrap justify-center">
+
+          {/* all type of category  */}
+
+          {/* <div className="w-full h-40  overflow-none px-40 text-center">
+            <div
+              className="flex flex-wrap gap-4 py-4 px-6 whitespace-nowrap justify-center">
               {unique.length > 0 &&
                 unique.map((item, idx) => (
                   <div
+                    onSelect={console.log("fuck u")}
                     key={idx}
                     className="bg-white text-lg font-medium text-gray-800 px-6 py-2 rounded-full shadow-lg hover:bg-gray-100 cursor-pointer"
                   >
@@ -109,11 +116,11 @@ const hero = () => {
                   </div>
                 ))}
             </div>
-          </div>
+          </div> */}
         </div>
-        <div className="h-full mt-40 w-full  flex justify-center items-start p-6">
+        <div className="h-full mt-10 w-full  flex justify-center items-start p-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 text-center">
-            {slicedata.map((item, idx) => (
+            {filterproduct.map((item, idx) => (
               <div key={idx} className=" rounded-3xl shadow-lg flex flex-col justify-center items-center p-4">
                 <img
                   src={item.images[0]}
@@ -125,7 +132,8 @@ const hero = () => {
                   {slicediscription[idx].length > 60
                     ? slicediscription[idx].slice(0, 60) + "..."
                     : slicediscription[idx]}
-                </p>              </div>
+                </p>
+              </div>
             ))}
           </div>
         </div>

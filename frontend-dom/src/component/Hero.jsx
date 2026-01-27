@@ -25,7 +25,7 @@ const hero = () => {
     <>
       <div className=''>
         <div className='grid grid-cols-2'>
-          <div className='p-11 bg-gradient-to-b  from-[#faecb8] to-[#fff]'>
+          <div className='p-11 bg-linear-to-b  from-[#faecb8] to-white'>
             <h1 className='text-5xl md:text-7xl font-extrabold text-slate-900 leading-[1.1] tracking-tight'>
               The #1 Campus Marketplace <br />
               <span className="text-3xl md:text-4xl font-medium text-slate-700 block mt-2">
@@ -42,8 +42,8 @@ const hero = () => {
 
             <div className='flex text-2xl mt-10 gap-3.5 font-bold'>
               <button className="inline-flex items-center gap-3 px-5 py-2 rounded-full font-semibold
-                       bg-gradient-to-r from-amber-400 to-yellow-300 text-slate-900
-                       shadow-md hover:translate-y-[-2px] transition-transform focus:outline-none
+                       bg-linear-to-r from-amber-400 to-yellow-300 text-slate-900
+                       shadow-md hover:-translate-y-0.5 transition-transform focus:outline-none
                        focus:ring-4 focus:ring-amber-200">
                 Get Started
               </button>
@@ -54,11 +54,11 @@ const hero = () => {
               duration-500'>Start Yours business</button>
             </div>
           </div>
-          <div className='bg-gradient-to-b from-[#faecb8] to-[#fff] flex justify-center items-center'>
+          <div className='bg-linear-to-b from-[#faecb8] to-white flex justify-center items-center'>
             <img src={student} alt="" />
           </div>
         </div>
-        <div className='h-60 bg-gradient-to-b  from-[#f9efcc] to-[#fff] text-center flex flex-col justify-center '>
+        <div className='h-60 bg-linear-to-b  from-[#f9efcc] to-white text-center flex flex-col justify-center '>
           <h2 className='text-4xl font-black m-5 underline ml-30'>Why us</h2>
           <div className='grid grid-cols-4 gap-1.5 text-4xl font-black'>
             <div className='flex justify-center text-center border-r-2 gap-4'>
@@ -94,7 +94,7 @@ const hero = () => {
         <div className='  text-center '>
           <h2 className='text-5xl font-bold my-7'>Some Popular search's</h2>
           <div className='flex items-center justify-center mx-50  gap-2 my-2'>
-            <input type="text" className='border-1 rounded w-full h-10 outline-none px-10 text-lg'
+            <input type="text" className='border rounded w-full h-10 outline-none px-10 text-lg'
               value={search}
               onChange={(e) => setsearch(e.target.value)} />
             <p className='h-10 text-3xl text-center p-4 rounded-lg py-1'><FaSearch /></p>
@@ -138,7 +138,7 @@ const hero = () => {
           </div>
         </div>
         <div className="text-xl h-20 flex items-center justify-center">
-          <p className='bg-gradient-to-t  from-[#fbe07f] to-[#fff] w-120 text-center rounded-2xl'> Explore All <PiArrowDownBold /></p>
+          <p className='bg-linear-to-t  from-[#fbe07f] to-white w-120 text-center rounded-2xl'> Explore All <PiArrowDownBold /></p>
         </div>
       </div>
       <Footer />

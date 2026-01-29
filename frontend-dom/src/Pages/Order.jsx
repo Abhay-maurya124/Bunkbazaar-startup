@@ -15,8 +15,8 @@ const Order = () => {
         }
     }
 
-    // const slicedata = Product.slice(0, slice)
-   
+    const slicedata = Product.slice(0, slice)
+
     useEffect(() => {
         fetchdata()
     }, [])
@@ -24,7 +24,7 @@ const Order = () => {
     return (
         <div>
             <div className='grid grid-cols-5 bg-red-200'>
-                {Product.map((item, idx) => (
+                {slicedata.map((item, idx) => (
                     <div className='flex justify-center item-center'>
                         <Card key={idx} data={item} />
                     </div>
@@ -32,8 +32,8 @@ const Order = () => {
             </div>
             <div>
                 <button
-                className='font-bold text-4xl cursor-pointer' 
-                onClick={(prev) => setslice(prev + 10)}
+                    className='font-bold text-4xl cursor-pointer'
+                    onClick={(prev) => setslice(prev + 10)}
                 >+</button>
             </div>
         </div>

@@ -14,7 +14,6 @@ const Order = () => {
             console.log("somthing went wrong in hero.jsx")
         }
     }
-
     const slicedata = Product.slice(0, slice)
 
     useEffect(() => {
@@ -39,5 +38,5 @@ const Order = () => {
         </div>
     )
 }
-
+✅
 export default Order

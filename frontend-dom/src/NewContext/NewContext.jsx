@@ -8,7 +8,7 @@ const NewContext = ({ children }) => {
 
     const fetchdata = async () => {
         try {
-            const res = await fetch("http://localhost:3000/api/products");
+            const res = await fetch("http://localhost:3000/api/products/all");
             if (!res.ok) {
                 throw new Error(`HTTP error! status: ${res.status}`);
             }

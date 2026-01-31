@@ -4,7 +4,7 @@ import { IoIosPerson } from "react-icons/io";
 import { FaShoppingCart, FaSearch } from "react-icons/fa";
 import { PiArrowDownBold, PiContactlessPaymentFill } from "react-icons/pi";
 import { GiTrade } from "react-icons/gi";
-import { Contextprovider } from "../../NewContext/NewContext";
+import { Contextprovider } from '../NewContext/NewContext'
 import { Link } from 'react-router-dom'
 
 const Hero = () => {
@@ -65,13 +65,14 @@ const Hero = () => {
 
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-
+  console.log(Product)
   const uniqueCategories = [...new Set(Product.map((item) => item.category))];
 
   const filteredProducts = Product.filter((item) => {
     const matchesSearch =
       item.title.toLowerCase().includes(search.toLowerCase()) ||
       item.description.toLowerCase().includes(search.toLowerCase());
+
     const matchesCategory =
       selectedCategory === "" || item.category === selectedCategory;
     return matchesSearch && matchesCategory;
@@ -85,7 +86,7 @@ const Hero = () => {
 
   return (
     <>
-      {/* ---------- Hero Introduction ---------- */}
+      {/*front page*/}
       <div className="grid h-[84vh] grid-cols-1 md:grid-cols-2 bg-gradient-to-b from-[#faecb8] to-[#fff] p-8 gap-6">
         <div className="space-y-6">
           <h1 className="text-4xl md:text-7xl font-extrabold text-slate-900 leading-tight">
@@ -120,14 +121,14 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* ---------- Why Us Section ---------- */}
+      {/* {why us} */}
       <div className="bg-[#f9efcc] py-12 px-6 h-[45vh]">
         <h2 className="text-4xl md:text-5xl font-bold underline text-center mb-10">
           Why Us
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Feature 1 */}
+          {/* feature 1 */}
           <div className="flex items-center gap-6 p-6 bg-white rounded-xl shadow-md">
             <div className="text-[#FF6500] text-6xl p-2 border-2 borderlack rounded-2xl">
               <IoIosPerson />
@@ -173,7 +174,7 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* ---------- Search & Category Filters ---------- */}
+      {/* search element*/}
       <div className="text-center my-12 px-6">
         <h2 className="text-3xl font-bold mb-4">Find What You Need</h2>
 
@@ -211,7 +212,7 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* ---------- Product Cards ---------- */}
+      {/*card */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 px-6 pb-12">
         {filteredProducts.map((item, idx) => (
           <div

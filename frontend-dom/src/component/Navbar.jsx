@@ -1,61 +1,61 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import logo from '../Assets/logo.png'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import logo from '../Assets/logo.png';
+
 const Navbar = () => {
     return (
-        <div className='px-9 text-lg text-blue-100 font-semibold  font-sans  bg-gradient-to-r from-[#000]/80 to-[#04293b] sticky'>
-            <nav className='flex justify-around items-center h-30'>
-                <div className='flex  gap-5'>
-                    <div className='flex items-center tracking-tighter'>
-                        <img src={logo} alt="" className='h-20' />
-                        <h3 className='text-yellow-400 text-4xl font-black tracking-tighter text-shadow-2xl'>Bunk <span className='text-amber-500'>Bazaar</span></h3>
-                    </div>
+        <div className='sticky top-0 z-50 w-full bg-white border-b-4 border-black px-6 md:px-12 py-3'>
+            <nav className='flex justify-between items-center max-w-[1440px] mx-auto'>
+
+                <div className='flex items-center gap-2'>
+                    <img src={logo} alt="Bunk Bazaar Logo" className='h-12 md:h-16' />
+                    <Link to='/' className="group">
+                        <h3 className='text-slate-900 text-3xl md:text-4xl font-black tracking-tighter uppercase italic'>
+                            Bunk <span className='text-amber-500 group-hover:text-black transition-colors'>Bazaar</span>
+                        </h3>
+                    </Link>
                 </div>
-                <input type="text" placeholder='Search' className='h-10 w-90 px-3 mx-1 border-1 rounded-sm' />
-                <div>
-                    <ul className='flex justify-evenly items-center gap-6'>
-                        <Link to="/">
-                            <div>
-                                Home
-                            </div>
-                        </Link>
-                        <Link to="/order">
-                            <div>
-                                Products
-                            </div>
-                        </Link>
-                        <Link to="/about">
-                            <div>
-                                customer
-                            </div>
-                        </Link>
-                        <Link to="/career" className=''>
-                            <div>
-                                career
-                            </div>
-                        </Link>
-                        <Link to="/business" className=''>
-                            <div>
-                                Business
-                            </div>
-                        </Link>
-                        <Link to="/blog" className=''>
-                            <div>
-                                Blog
-                            </div>
-                        </Link>
-                        <button className="w-full h-10 px-4 rounded-lg text-white bg-amber-500 hover:bg-amber-600 transition duration-200 ease-in-out">
-                            Login
+
+                <div className='hidden lg:flex flex-1 max-w-md mx-10'>
+                    <input
+                        type="text"
+                        placeholder='Search campus gear...'
+                        className='w-full h-12 px-5 border-4 border-black rounded-xl font-bold placeholder:text-slate-400 focus:bg-amber-50 outline-none transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:shadow-none focus:translate-x-1 focus:translate-y-1'
+                    />
+                </div>
+
+                <div className='flex items-center gap-8'>
+                    <ul className='hidden xl:flex items-center gap-6 font-black uppercase text-sm tracking-tight text-slate-700'>
+                        <li className='hover:text-amber-500 transition-colors cursor-pointer'>
+                            <Link to="/">Home</Link>
+                        </li>
+                        <li className='hover:text-amber-500 transition-colors cursor-pointer'>
+                            <Link to="/order">Products</Link>
+                        </li>
+                        <li className='hover:text-amber-500 transition-colors cursor-pointer'>
+                            <Link to="/bussiness">Bussiness</Link>
+                        </li>
+                        <li className='hover:text-amber-500 transition-colors cursor-pointer'>
+                            <Link to="/career">Career</Link>
+                        </li>
+                        <li className='hover:text-amber-500 transition-colors cursor-pointer'>
+                            <Link to="/blog">Blog</Link>
+                        </li>
+                    </ul>
+
+                    <div className='flex items-center gap-3'>
+                        <button className="hidden sm:block px-6 py-2 rounded-xl font-black uppercase border-2 border-black hover:bg-slate-100 transition-all active:translate-y-1">
+                            <Link to="/login"> Login</Link>
                         </button>
 
-                        <button className="w-full h-10 px-4 rounded-lg border-2 hover:text-black hover:bg-amber-100 transition duration-200 ease-in-out">
-                            Register
+                        <button className="px-6 py-2 rounded-xl font-black uppercase bg-amber-400 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-amber-500 transition-all active:shadow-none active:translate-x-1 active:translate-y-1">
+                            <Link to="/register">Register</Link>
                         </button>
-                    </ul>
+                    </div>
                 </div>
             </nav>
         </div>
-    )
-}
+    );
+};
 
-export default Navbar
+export default Navbar;

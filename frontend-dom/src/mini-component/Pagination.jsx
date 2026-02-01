@@ -1,22 +1,50 @@
-import React from 'react'
+import React from "react";
+
 const Pagination = ({ setpage, setslice, page }) => {
-    const handleincrement = () => {
-        setpage(prev => prev + 1)
-    }
-    const handledecrement = () => {
-        setpage(prev => Math.max(1, prev - 1))
-    }
-    return (
-        <div>
+  const handleIncrement = () => {
+    setpage((prev) => prev + 1);
+  };
 
-            <div className='flex justify-center items-center text-5xl '>
-                <button className='bg-red-400 p-1 rounded-3xl text-center py-1 px-3 ' onClick={handledecrement}>-</button>
-                <p>{page}</p>
-                <button className='bg-red-400 p-1 rounded-3xl text-center py-1 px-2' onClick={handleincrement}>+</button>
-            </div>
+  const handleDecrement = () => {
+    setpage((prev) => Math.max(1, prev - 1));
+  };
 
-        </div>
-    )
-}
+  return (
+    <div className="flex justify-center items-center gap-4 my-6">
+      {/* Previous */}
+      <button
+        onClick={handleDecrement}
+        className="
+          bg-red-500 text-white
+          px-3 py-2 rounded-lg
+          font-semibold text-xl
+          transition-colors duration-200
+          hover:bg-red-600
+          disabled:bg-gray-300 disabled:text-gray-500
+        "
+        disabled={page <= 1}
+      >
+        —
+      </button>
 
-export default Pagination
+      {/* Current Page */}
+      <p className="text-xl font-bold text-gray-800">{page}</p>
+
+      {/* Next */}
+      <button
+        onClick={handleIncrement}
+        className="
+          bg-green-500 text-white
+          px-4 py-2 rounded-lg
+          font-semibold text-xl
+          transition-colors duration-200
+          hover:bg-green-600
+        "
+      >
+        +
+      </button>
+    </div>
+  );
+};
+
+export default Pagination;

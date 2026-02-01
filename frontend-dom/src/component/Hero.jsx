@@ -1,4 +1,4 @@
-import React, { useContext, useReducer, useState } from "react";
+import React, { useContext, useState } from "react";
 import student from "../Assets/student.png";
 import { IoIosPerson } from "react-icons/io";
 import { FaShoppingCart, FaSearch } from "react-icons/fa";
@@ -9,319 +9,187 @@ import { Link } from 'react-router-dom'
 
 const Hero = () => {
   const faq = [
-    {
-      "id": 1,
-      "question": "What is bunkBazzar?",
-      "answer": "bunkBazzar is a secure marketplace designed for fast, trustworthy connections between buyers and sellers, featuring integrated escrow payments."
-    },
-    {
-      "id": 2,
-      "question": "How does the Escrow Payment system work?",
-      "answer": "When you make a purchase, your funds are held securely by bunkBazzar. The payment is only released to the seller once you confirm you have received the service or product."
-    },
-    {
-      "id": 3,
-      "question": "Is it safe to trade with 'others' outside the platform?",
-      "answer": "We recommend staying within bunkBazzar to ensure you are protected by our Escrow system and verified user ratings, which 'others' often lack."
-    },
-    {
-      "id": 4,
-      "question": "How fast are the transactions processed?",
-      "answer": "Most transactions are instant. Once both parties agree and the payment is secured, the connection is established immediately."
-    },
-    {
-      "id": 5,
-      "question": "Are there any hidden fees?",
-      "answer": "No. bunkBazzar prides itself on transparency. All pricing is shown upfront before you commit to a transaction."
-    },
-    {
-      "id": 6,
-      "question": "What happens if a seller doesn't deliver?",
-      "answer": "If a seller fails to meet the agreed terms, you can open a dispute. Our support team will review the case and refund your escrowed funds if necessary."
-    },
-    {
-      "id": 7,
-      "question": "How do I become a verified seller?",
-      "answer": "You can apply for verification in your account settings by providing the necessary documentation to prove your identity and reliability."
-    },
-    {
-      "id": 8,
-      "question": "Can I use bunkBazzar on my mobile device?",
-      "answer": "Yes, our platform is fully optimized for mobile browsers, allowing you to manage your trades on the go."
-    },
-    {
-      "id": 9,
-      "question": "How does bunkBazzar maintain 'Low Price' guarantees?",
-      "answer": "By reducing the middleman costs and streamlining the connection process, we pass those savings directly to our users."
-    },
-    {
-      "id": 10,
-      "question": "How do I contact customer support?",
-      "answer": "Our support team is available 24/7 via the 'Help' dashboard or through our official discord and email channels."
-    }
-  ]
-  console.log(faq[0])
-  const { Product = [] } = useContext(Contextprovider);
+    { id: 1, question: "What is bunkBazzar?", answer: "bunkBazzar is a secure marketplace designed for fast, trustworthy connections between buyers and sellers, featuring integrated escrow payments." },
+    { id: 2, question: "How does the Escrow Payment system work?", answer: "When you make a purchase, your funds are held securely by bunkBazzar. The payment is only released to the seller once you confirm you have received the service or product." },
+    { id: 3, question: "Is it safe to trade with 'others' outside the platform?", answer: "We recommend staying within bunkBazzar to ensure you are protected by our Escrow system and verified user ratings." },
+    { id: 4, question: "How fast are the transactions processed?", answer: "Most transactions are instant. Once both parties agree and the payment is secured, the connection is established immediately." },
+    { id: 5, question: "Are there any hidden fees?", answer: "No. bunkBazzar prides itself on transparency. All pricing is shown upfront." },
+  ];
 
+  const { Product = [] } = useContext(Contextprovider);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  console.log(Product)
+  const [drop, setdrop] = useState(-1);
+
   const uniqueCategories = [...new Set(Product.map((item) => item.category))];
-
   const filteredProducts = Product.filter((item) => {
-    const matchesSearch =
-      item.title.toLowerCase().includes(search.toLowerCase()) ||
-      item.description.toLowerCase().includes(search.toLowerCase());
-
-    const matchesCategory =
-      selectedCategory === "" || item.category === selectedCategory;
+    const matchesSearch = item.title.toLowerCase().includes(search.toLowerCase()) || item.description.toLowerCase().includes(search.toLowerCase());
+    const matchesCategory = selectedCategory === "" || item.category === selectedCategory;
     return matchesSearch && matchesCategory;
-  }).slice(0, 9);
+  }).slice(0, 4);
 
-
-  const [drop, setdrop] = useState(-1)
-  const handledrop = (index) => {
-    setdrop(drop === index ? -1 : index)
-  }
+  const handledrop = (index) => setdrop(drop === index ? -1 : index);
 
   return (
-    <>
-      {/*front page*/}
-      <div className="grid h-[84vh] grid-cols-1 md:grid-cols-2 bg-gradient-to-b from-[#faecb8] to-[#fff] p-8 gap-6">
-        <div className="space-y-6">
-          <h1 className="text-4xl md:text-7xl font-extrabold text-slate-900 leading-tight">
-            The #1 Campus Marketplace
-            <span className="block text-2xl md:text-4xl font-medium text-slate-700 mt-2">
-              Turn your idle gear into student gold.
-            </span>
-          </h1>
-
-          <div className="inline-flex text-6xl items-center bg-amber-400 px-6 py-2 rounded-full shadow-md transform -rotate-1">
-            <span className="uppercase font-bold">Bunk</span>
-            <span className="italic font-light ml-1">Bazaar</span>
+    <div className="selection:bg-amber-300">
+      {/* Front Page / Hero Section */}
+      <div className="grid min-h-[85vh] grid-cols-1 md:grid-cols-2 bg-gradient-to-b from-[#faecb8] to-[#fff] px-6 md:px-28 py-12 gap-10 items-center">
+        <div className="space-y-8">
+          <div className="inline-block bg-white border-2 border-black px-4 py-1 rounded-full text-sm font-bold uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-4">
+             Trusted by 100k+ Students
           </div>
-
-          <p className="text-lg text-slate-600 max-w-lg">
-            Buy and sell within your verified college community — safe, local,
-            and made for the student hustle.
+          <h1 className="text-5xl md:text-8xl font-black text-slate-900 leading-[0.9] tracking-tighter">
+            THE #1 CAMPUS <br />
+            <span className="text-amber-500 italic">MARKETPLACE</span>
+          </h1>
+          <p className="text-xl md:text-2xl font-bold text-slate-700 max-w-lg border-l-4 border-black pl-4">
+            Turn your idle gear into student gold. Safe, local, and made for the hustle.
           </p>
 
-          <div className="flex gap-6 text-lg font-bold">
-            <button className="bg-yellow-600 text-white px-5 py-3 rounded-lg hover:bg-blue-700 transition hover:scale-95">
-              Explore Items
+          <div className="flex flex-wrap gap-6">
+            <button className="bg-black text-white px-8 py-4 rounded-2xl font-black text-xl hover:bg-amber-500 hover:text-black transition-all shadow-[8px_8px_0px_0px_rgba(251,191,36,1)] active:translate-y-1 active:shadow-none">
+              EXPLORE ITEMS
             </button>
-            <button className="bg-yellow-200  px-5 py-3 rounded-lg hover:bg-yellow-300 transition-all duration-300 hover:scale-95">
-              Start Your Business
+            <button className="bg-white border-4 border-black px-8 py-4 rounded-2xl font-black text-xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:bg-slate-100 active:translate-y-1 active:shadow-none">
+              SELL GEAR
             </button>
           </div>
         </div>
 
-        <div className="flex justify-center items-center">
-          <img src={student} alt="Student marketplace illustration" className="w-full max-w-md" />
+        <div className="relative">
+          <div className="absolute inset-0 bg-amber-300 rounded-full blur-3xl opacity-30 animate-pulse"></div>
+          <img src={student} alt="Student" className="relative w-full max-w-lg mx-auto drop-shadow-[20px_20px_0px_rgba(0,0,0,0.1)]" />
         </div>
       </div>
 
-      {/* {why us} */}
-      <div className="bg-[#f9efcc] py-12 px-6 h-[45vh]">
-        <h2 className="text-4xl md:text-5xl font-bold underline text-center mb-10">
-          Why Us
+      {/* Why Us Section */}
+      <div className="bg-white py-20 px-6">
+        <h2 className="text-5xl font-black text-center mb-16 uppercase tracking-tighter italic underline decoration-amber-400 underline-offset-8">
+          Why Bunk Bazaar?
         </h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* feature 1 */}
-          <div className="flex items-center gap-6 p-6 bg-white rounded-xl shadow-md">
-            <div className="text-[#FF6500] text-6xl p-2 border-2 borderlack rounded-2xl">
-              <IoIosPerson />
+        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {[
+            { icon: <IoIosPerson />, label: "100k+", sub: "Active Users" },
+            { icon: <FaShoppingCart />, label: "10X", sub: "Faster Sales" },
+            { icon: <PiContactlessPaymentFill />, label: "Escrow", sub: "Secure Pay" },
+            { icon: <GiTrade />, label: "Verified", sub: "Campus Sellers" }
+          ].map((feature, i) => (
+            <div key={i} className="group p-8 bg-amber-50 border-4 border-black rounded-[2rem] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-2 transition-all">
+              <div className="text-5xl mb-4 text-black group-hover:text-amber-600 transition-colors">{feature.icon}</div>
+              <h3 className="text-3xl font-black">{feature.label}</h3>
+              <p className="font-bold text-slate-600">{feature.sub}</p>
             </div>
-            <div>
-              <h3 className="text-2xl font-bold">100k+</h3>
-              <p className="text-lg font-medium">Users</p>
-            </div>
-          </div>
-
-          {/* Feature 2 */}
-          <div className="flex items-center gap-6 p-6 bg-white rounded-xl shadow-md">
-            <div className="text-[#FF6500] text-6xl p-2 border-2 borderlack rounded-2xl">
-              <FaShoppingCart />
-            </div>
-            <div>
-              <h3 className="text-2xl font-bold">10X</h3>
-              <p className="text-lg font-medium">Faster Liquidity</p>
-            </div>
-          </div>
-
-          {/* Feature 3 */}
-          <div className="flex items-center gap-6 p-6 bg-white rounded-xl shadow-md">
-            <div className="text-[#FF6500] text-6xl p-2 border-2 borderlack rounded-2xl">
-              <PiContactlessPaymentFill />
-            </div>
-            <div>
-              <h3 className="text-2xl font-bold">Escrow</h3>
-              <p className="text-lg font-medium">Secure Payment</p>
-            </div>
-          </div>
-
-          {/* Feature 4 */}
-          <div className="flex items-center gap-6 p-6 bg-white rounded-xl shadow-md">
-            <div className="text-[#FF6500] text-6xl p-2 border-2 borderlack rounded-2xl">
-              <GiTrade />
-            </div>
-            <div>
-              <h3 className="text-2xl font-bold">Trusted</h3>
-              <p className="text-lg font-medium">Sellers</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* search element*/}
-      <div className="text-center my-12 px-6">
-        <h2 className="text-3xl font-bold mb-4">Find What You Need</h2>
-
-        <div className="flex justify-center gap-3 mb-6">
-          <input
-            type="text"
-            placeholder="Search products or description..."
-            className="border px-4 py-2 w-80 rounded-lg text-lg outline-none"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <button className="text-2xl text-gray-600">
-            <FaSearch />
-          </button>
-        </div>
-
-        <div className="flex flex-wrap justify-center gap-3">
-          <button
-            onClick={() => setSelectedCategory("")}
-            className={`px-4 py-2 rounded-full ${selectedCategory === "" ? "bg-gray-300" : "bg-white"
-              }`}
-          >
-            All
-          </button>
-          {uniqueCategories.map((cat, idx) => (
-            <button
-              key={idx}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-full ${selectedCategory === cat ? "bg-gray-300" : "bg-white"
-                }`}
-            >
-              {cat}
-            </button>
           ))}
         </div>
       </div>
 
-      {/*card */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 px-6 pb-12">
-        {filteredProducts.map((item, idx) => (
-          <div
-            key={idx}
-            className="bg-white rounded-2xl shadow-md p-5 flex flex-col items-center"
-          >
-            <img
-              src={item.images[0]}
-              alt={item.title}
-              className="h-40 w-40 object-cover mb-3"
+      {/* Search Section */}
+      <div className="bg-[#faecb8] py-20 px-6 border-y-4 border-black">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl font-black mb-8 uppercase">Find What You Need</h2>
+          <div className="flex flex-col md:flex-row gap-0 shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] rounded-3xl overflow-hidden border-4 border-black">
+            <input
+              type="text"
+              placeholder="Search products..."
+              className="flex-1 px-8 py-5 text-xl outline-none"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
-            <h3 className="text-2xl font-semibold text-center">
-              {item.title}
-            </h3>
-            <p className="text-md text-gray-700 mt-2 text-center">
-              {item.description.length > 60
-                ? item.description.slice(0, 60) + "..."
-                : item.description}
-            </p>
-            <button className="w-50 bg-amber-500 h-10 rounded-full m-3 bg-gradient-to-l from-[#ggg] to-[bbb]">Add to cart</button>
+            <button className="bg-black text-white px-10 py-5 text-2xl hover:bg-slate-800 transition-colors">
+              <FaSearch />
+            </button>
           </div>
-        ))}
-        {filteredProducts.length === 0 && (
-          <p className="col-span-full text-center text-xl text-gray-600">
-            No items found.
-          </p>
-        )}
+
+          <div className="flex flex-wrap justify-center gap-3 mt-10">
+            <button
+              onClick={() => setSelectedCategory("")}
+              className={`px-6 py-2 rounded-xl border-2 border-black font-bold transition-all ${selectedCategory === "" ? "bg-black text-white shadow-none" : "bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-amber-100"}`}
+            >
+              All
+            </button>
+            {uniqueCategories.map((cat, idx) => (
+              <button
+                key={idx}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-6 py-2 rounded-xl border-2 border-black font-bold transition-all ${selectedCategory === cat ? "bg-black text-white shadow-none" : "bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-amber-100"}`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
-      <div className="text-center mb-10">
-        <Link to="/order" className="inline-flex items-center gap-2 text-xl bg-gradient-to-t from-[#fbe07f] to-[#fff] px-6 py-3 rounded-full cursor-pointer">
-          Explore All <PiArrowDownBold />
-        </Link>
+      {/* Product Card Grid */}
+      <div className="max-w-7xl mx-auto px-6 py-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+          {filteredProducts.map((item, idx) => (
+            <div key={idx} className="bg-white border-4 border-black rounded-[2rem] p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(251,191,36,1)] transition-all flex flex-col items-center">
+              <div className="bg-slate-100 w-full rounded-2xl p-4 mb-4 border-2 border-black">
+                <img src={item.images[0]} alt={item.title} className="h-48 w-full object-contain mix-blend-multiply" />
+              </div>
+              <h3 className="text-xl font-black uppercase tracking-tight">{item.title}</h3>
+              <p className="text-slate-600 font-medium text-center mt-2 line-clamp-2">{item.description}</p>
+              <button className="mt-6 w-full bg-amber-400 border-2 border-black py-3 rounded-xl font-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-1 active:translate-y-1 hover:bg-amber-500 transition-all uppercase">
+                Add to Cart
+              </button>
+            </div>
+          ))}
+        </div>
+        
+        <div className="mt-16 text-center">
+          <Link to="/order" className="inline-flex items-center gap-3 text-2xl font-black bg-white border-4 border-black px-10 py-4 rounded-2xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:bg-amber-400 transition-all">
+            EXPLORE ALL <PiArrowDownBold className="animate-bounce" />
+          </Link>
+        </div>
       </div>
-      {/* table */}
-      <div className="flex flex-col items-center">
-        <h2 className="text-3xl font-bold m-5 tracking-wide">How we are diffrent From others?</h2>
-        <div className="overflow-hidden  shadow-sm px-40">
-          <table className="border-collapse w-[70vw] text-center text-xl md:text-2xl m-10">
+
+      {/* Comparison Table */}
+      <div className="bg-slate-900 py-24 px-6 text-white">
+        <h2 className="text-4xl md:text-5xl font-black text-center mb-16 uppercase italic">Why we beat the others</h2>
+        <div className="max-w-5xl mx-auto overflow-x-auto">
+          <table className="w-full text-left border-collapse min-w-[600px]">
             <thead>
-              <tr className="bg-yellow-400 text-black">
-                <th className="p-6 font-bold border border-slate-300">Features</th>
-                <th className="p-6 font-bold border border-slate-300 bg-yellow-500/20">bunkBazzar</th>
-                <th className="p-6 font-bold border border-slate-300">Others</th>
+              <tr className="border-b-4 border-white/20">
+                <th className="p-6 text-2xl font-black italic">FEATURES</th>
+                <th className="p-6 text-2xl font-black text-amber-400 italic">BUNK BAZAAR</th>
+                <th className="p-6 text-2xl font-black text-slate-500 italic">OTHERS</th>
               </tr>
             </thead>
-            <tbody className="bg-white">
-
-              <tr className="hover:bg-slate-50 transition-colors">
-                <td className="p-6 border border-slate-200 font-medium text-slate-700">Fast Delivery</td>
-                <td className="p-6 border border-slate-200 font-semibold text-green-600 bg-yellow-50/30">Great</td>
-                <td className="p-6 border border-slate-200 text-slate-500">Low</td>
-              </tr>
-
-              <tr className="hover:bg-slate-50 transition-colors">
-                <td className="p-6 border border-slate-200 font-medium text-slate-700">Trustworthy</td>
-                <td className="p-6 border border-slate-200 font-semibold text-green-600 bg-yellow-50/30">Great</td>
-                <td className="p-6 border border-slate-200 text-slate-500">Low</td>
-              </tr>
-
-              <tr className="hover:bg-slate-50 transition-colors">
-                <td className="p-6 border border-slate-200 font-medium text-slate-700">Low Price</td>
-                <td className="p-6 border border-slate-200 font-semibold text-green-600 bg-yellow-50/30">Great</td>
-                <td className="p-6 border border-slate-200 text-slate-500">Low</td>
-              </tr>
-
-              <tr className="hover:bg-slate-50 transition-colors">
-                <td className="p-6 border border-slate-200 font-medium text-slate-700">Connection</td>
-                <td className="p-6 border border-slate-200 font-semibold text-green-600 bg-yellow-50/30">Great</td>
-                <td className="p-6 border border-slate-200 text-slate-500">Low</td>
-              </tr>
-
-              <tr className="hover:bg-slate-50 transition-colors">
-                <td className="p-6  border border-slate-200 font-medium text-slate-700">Escrow Payment</td>
-                <td className="p-6  border border-slate-200 font-semibold text-green-600 bg-yellow-50/30">Great</td>
-                <td className="p-6  border border-slate-200 text-slate-500">Low</td>
-              </tr>
+            <tbody className="font-bold text-xl">
+              {["Fast Delivery", "Trustworthy", "Low Price", "Escrow Payment"].map((feat, i) => (
+                <tr key={i} className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                  <td className="p-6">{feat}</td>
+                  <td className="p-6 text-green-400 underline decoration-2">GREAT</td>
+                  <td className="p-6 text-red-400/50">LOW</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
       </div>
 
-      {/* frequently asked question */}
-
-      <div className="max-w-3xl mx-auto my-10  space-y-2">
-        <h2 className="text-3xl font-bold text-center  p-10">Frequently asked question</h2>
-        {faq.map((val, idx) => (
-          <div key={idx} className="border border-slate-200 rounded-lg overflow-hidden bg-white shadow-sm">
-            {/* Header Container */}
-            <div
-              className="flex justify-between items-center p-6 cursor-pointer hover:bg-slate-50 transition-colors"
-              onClick={() => handledrop(idx)}
-            >
-              <h3 className="font-semibold text-slate-800 text-lg leading-tight">
-                {val.question}
-              </h3>
-              <span className={`text-2xl font-light text-slate-400 transform transition-transform duration-300 ${drop === idx ? 'rotate-45 text-yellow-500' : 'rotate-0'}`}>
-                +
-              </span>
+      {/* FAQ Section */}
+      <div className="max-w-3xl mx-auto py-24 px-6">
+        <h2 className="text-5xl font-black text-center mb-12 uppercase italic underline decoration-amber-400 underline-offset-8">FAQ</h2>
+        <div className="space-y-4">
+          {faq.map((val, idx) => (
+            <div key={idx} className="border-4 border-black rounded-2xl overflow-hidden bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+              <div 
+                className="flex justify-between items-center p-6 cursor-pointer hover:bg-amber-50 transition-colors"
+                onClick={() => handledrop(idx)}
+              >
+                <h3 className="font-black text-xl uppercase tracking-tighter">{val.question}</h3>
+                <span className={`text-3xl font-black transition-transform duration-300 ${drop === idx ? 'rotate-45 text-amber-500' : ''}`}>+</span>
+              </div>
+              <div className={`px-6 pb-6 text-lg font-medium text-slate-700 leading-relaxed transition-all duration-300 ${drop === idx ? 'block' : 'hidden'}`}>
+                {val.answer}
+              </div>
             </div>
-
-            {/* Answer Paragraph */}
-            <p className={`px-4 pb-4 text-slate-600 leading-relaxed transition-all duration-300 ${drop === idx ? 'block opacity-100' : 'hidden opacity-0'}`}>
-              {val.answer}
-            </p>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

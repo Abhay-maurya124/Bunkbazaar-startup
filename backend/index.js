@@ -1,8 +1,9 @@
-require("dotenv").config(); // Standard way to call dotenv
-const express = require("express");
-const database = require("./module/database");
-const cors = require("cors");
-const { default: mongoose } = require("mongoose");
+import "dotenv/config";
+import express from "express";
+import cors from "cors";
+import mongoose from "mongoose";
+import database from "./modules/database.js";
+import route from "./routes/userroutes.js";
 const app = express();
 database();
 app.use(
@@ -54,6 +55,8 @@ app.get("/api/products/all", async (req, res) => {
     });
   }
 });
+
+app.use("/register/v3/", route);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

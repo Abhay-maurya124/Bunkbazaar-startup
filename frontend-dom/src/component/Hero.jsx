@@ -33,7 +33,7 @@ const Hero = () => {
   return (
     <div className="selection:bg-amber-300">
       {/* Front Page / Hero Section */}
-      <div className="grid min-h-[85vh] grid-cols-1 md:grid-cols-2 bg-gradient-to-b from-[#faecb8] to-[#fff] px-6 md:px-28 py-12 gap-10 items-center">
+      <div className="grid min-h-[85vh] grid-cols-1 md:grid-cols-2 bg-linear-to-b from-[#faecb8] to-white px-6 md:px-28 py-12 gap-10 items-center">
         <div className="space-y-8">
           <div className="inline-block bg-white border-2 border-black px-4 py-1 rounded-full text-sm font-bold uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-4">
              Trusted by 100k+ Students
@@ -74,7 +74,7 @@ const Hero = () => {
             { icon: <PiContactlessPaymentFill />, label: "Escrow", sub: "Secure Pay" },
             { icon: <GiTrade />, label: "Verified", sub: "Campus Sellers" }
           ].map((feature, i) => (
-            <div key={i} className="group p-8 bg-amber-50 border-4 border-black rounded-[2rem] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-2 transition-all">
+            <div key={i} className="group p-8 bg-amber-50 border-4 border-black rounded-4xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-2 transition-all">
               <div className="text-5xl mb-4 text-black group-hover:text-amber-600 transition-colors">{feature.icon}</div>
               <h3 className="text-3xl font-black">{feature.label}</h3>
               <p className="font-bold text-slate-600">{feature.sub}</p>
@@ -124,7 +124,7 @@ const Hero = () => {
       <div className="max-w-7xl mx-auto px-6 py-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {filteredProducts.map((item, idx) => (
-            <div key={idx} className="bg-white border-4 border-black rounded-[2rem] p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(251,191,36,1)] transition-all flex flex-col items-center">
+            <div key={idx} className="bg-white border-4 border-black rounded-4xl p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(251,191,36,1)] transition-all flex flex-col items-center">
               <div className="bg-slate-100 w-full rounded-2xl p-4 mb-4 border-2 border-black">
                 <img src={item.images[0]} alt={item.title} className="h-48 w-full object-contain mix-blend-multiply" />
               </div>
@@ -148,7 +148,7 @@ const Hero = () => {
       <div className="bg-slate-900 py-24 px-6 text-white">
         <h2 className="text-4xl md:text-5xl font-black text-center mb-16 uppercase italic">Why we beat the others</h2>
         <div className="max-w-5xl mx-auto overflow-x-auto">
-          <table className="w-full text-left border-collapse min-w-[600px]">
+          <table className="w-full text-left border-collapse min-w-150">
             <thead>
               <tr className="border-b-4 border-white/20">
                 <th className="p-6 text-2xl font-black italic">FEATURES</th>

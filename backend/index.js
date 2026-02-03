@@ -56,7 +56,7 @@ app.get("/api/products/all", async (req, res) => {
   }
 });
 
-app.use("/register/v3/", route);
+app.use("/user/v3", route);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

@@ -5,7 +5,7 @@ import logo from '../Assets/logo.png';
 const Navbar = () => {
     return (
         <div className='sticky top-0 z-50 w-full bg-white border-b-4 border-black px-6 md:px-12 py-3'>
-            <nav className='flex justify-between items-center max-w-[1440px] mx-auto'>
+            <nav className='flex justify-between items-center max-w-360 mx-auto'>
 
                 <div className='flex items-center gap-2'>
                     <img src={logo} alt="Bunk Bazaar Logo" className='h-12 md:h-16' />

@@ -5,7 +5,7 @@ const userschema = new mongoose.Schema(
     username: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    isverified: { type: Boolean, default: true },
+    isverified: { type: Boolean, default: false },
     islogged: { type: Boolean, required: false },
     otp: { type: String, default: null },
     otpexpiry: { type: Date, default: null },
@@ -13,4 +13,4 @@ const userschema = new mongoose.Schema(
   { timestamps: true },
 );
 
-export const user = mongoose.model("user", userschema);
+export const User = mongoose.model("user", userschema);

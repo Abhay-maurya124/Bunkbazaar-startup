@@ -1,4 +1,5 @@
 import { User } from "../modules/userschema.js";
+import { tempSession } from "../modules/Sessionschema.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import verifymail from "../verifymail/verify.js";
@@ -85,7 +86,7 @@ export const verifiction = async (req, res) => {
 
       return res.status(200).json({
         success: true,
-        meassege: "user successful registration",
+        messege: "user successful registration",
       });
     } catch (error) {
       res.status(400).json({
@@ -109,8 +110,63 @@ export const verifiction = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    if (isverified) {
-      const passwordcompare = bcrypt.compare()
+    const { email, password } = req.body;
+    if (!email || !password) {
+      res.status(401).json({
+        success: false,
+        message: "All feilds are required",
+      });
     }
-  } catch (error) {}
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      res.status(404).json({
+        success: false,
+        message: "user note found",
+      });
+    }
+    const comparison = await bcrypt.compare(password, user.password);
+    if (!comparison) {
+      res.status(401).json({
+        success: false,
+        message: "Incorrect Password",
+      });
+    }
+
+    if (user.isverified !== true) {
+      res.status(404).json({
+        success: false,
+        message: "Verification needed",
+      });
+    }
+
+    const accesstoken = jwt.sign({ id: User._id }, process.env.SECRET_KEY, {
+      expiresIn: "10d",
+    });
+    const refreshtoken = jwt.sign({ id: User._id }, process.env.SECRET_KEY, {
+      expiresIn: "30d",
+    });
+
+    const existingsession = await tempSession.findOne({ userid: user._id });
+    if (existingsession) {
+      await tempSession.deleteOne({ userid: user._id });
+    }
+    await tempSession.create({ userid: user._id });
+
+    user.islogged = true;
+    user.save();
+    return res.status(200).json({
+      success: true,
+      message: `welcome ${user.username}`,
+      accesstoken,
+      user,
+      refreshtoken,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.meassege,
+    });
+  }
 };

@@ -107,7 +107,7 @@ export const verifiction = async (req, res) => {
     });
   }
 };
-
+/* login the user which is veried and set as logged in the database and created two diifrent token to authenticated even after the weeks letaer*/
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -167,6 +167,33 @@ export const login = async (req, res) => {
     res.status(500).json({
       success: false,
       message: error.meassege,
+    });
+  }
+};
+
+export const logout = async (req, res) => {
+  try {
+    const userid = req.UserId;
+    await tempSession.findByIdAndDelete(userid);
+    await User.findByIdAndUpdate(userid, { islogged: false });
+    return res.status(201).json({
+      success: true,
+      message: "Logout Successfull",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.meassege,
+    });
+  }
+};
+
+export const forgetpassword = async () => {
+  const { email } = req.body;
+  if (!email) {
+    return res.status(401).json({
+      success: false,
+      message: "User not found",
     });
   }
 };

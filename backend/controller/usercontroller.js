@@ -3,6 +3,7 @@ import { tempSession } from "../modules/Sessionschema.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import verifymail from "../verifymail/verify.js";
+import { Otpmail } from "../verifymail/OTPverify.js";
 
 /* registration handle the user data and also collect the data =of username,email,password. so it can add the only original data ,not the fake one . by sending the verification mail with token and also hashed the password using the bcrypt property for the secure password and generating the uniqe token for the user*/
 
@@ -188,12 +189,78 @@ export const logout = async (req, res) => {
   }
 };
 
-export const forgetpassword = async () => {
+export const forgetpassword = async (req, res) => {
   const { email } = req.body;
-  if (!email) {
-    return res.status(401).json({
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.status(404).json({
       success: false,
-      message: "User not found",
+      message: "user note found",
+    });
+  }
+
+  const OTP = Math.floor(100000 + Math.random() * 900000);
+  const OTPExpiry = new Date(Date.now() + 10 * 60 * 1000).toString();
+
+  user.otp = OTP;
+  user.otpexpiry = OTPExpiry;
+  await user.save();
+
+  res.status(201).json({
+    success: true,
+    message: "mail sent succesfully",
+  });
+  await Otpmail({ email: user.email, OTP: OTP });
+};
+
+export const changepassword = async () => {
+  const { newpassword, confirmpassword } = req.body;
+  const email = email.params.body;
+  const user = await User.findOne({ email });
+
+  if (newpassword !== confirmpassword) {
+    res.status(404).json({
+      success: false,
+      message: "password not match",
+    });
+  }
+
+  user.password = newpassword;
+  await user.save();
+};
+
+export const verifyOTP = async (req, res) => {
+  try {
+    const { otp, email } = req.body;
+    const user = await User.findOne({ email });
+    if (!otp) {
+      return res.status(401).json({
+        success: false,
+        message: "Otp needed",
+      });
+    }
+
+    if (otp !== user.otp) {
+      return res.status(401).json({
+        success: false,
+        message: "Wrong Otp",
+      });
+    }
+    if (Date.now() > user.otpexpiry) {
+      return res.status(401).json({ success: false, message: "OTP Expired" });
+    }
+    user.otp = null;
+    user.otpexpiry = null;
+    await user.save();
+    return res.status(201).json({
+      success: true,
+      message: "Password change successfull",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.meassege,
     });
   }
 };

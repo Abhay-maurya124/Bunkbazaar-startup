@@ -6,7 +6,6 @@ import verifymail from "../verifymail/verify.js";
 import { Otpmail } from "../verifymail/OTPverify.js";
 
 /* registration handle the user data and also collect the data =of username,email,password. so it can add the only original data ,not the fake one . by sending the verification mail with token and also hashed the password using the bcrypt property for the secure password and generating the uniqe token for the user*/
-
 export const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -68,7 +67,7 @@ export const verifiction = async (req, res) => {
     try {
       const user = await User.findById(decoded.id);
       if (!user) {
-        res.status(401).json({
+        return res.status(401).json({
           success: false,
           message: "user not found",
         });
@@ -113,7 +112,7 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      res.status(401).json({
+     return res.status(401).json({
         success: false,
         message: "All feilds are required",
       });
@@ -121,21 +120,21 @@ export const login = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (!user) {
-      res.status(404).json({
+      return res.status(404).json({
         success: false,
         message: "user note found",
       });
     }
     const comparison = await bcrypt.compare(password, user.password);
     if (!comparison) {
-      res.status(401).json({
+      return res.status(401).json({
         success: false,
         message: "Incorrect Password",
       });
     }
 
     if (user.isverified !== true) {
-      res.status(404).json({
+     return res.status(404).json({
         success: false,
         message: "Verification needed",
       });
@@ -165,13 +164,13 @@ export const login = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: error.meassege,
     });
   }
 };
-
+// logout function stated to logout the user from the web and setting the islooged to false and detele their all sessions
 export const logout = async (req, res) => {
   try {
     const userid = req.UserId;
@@ -188,7 +187,7 @@ export const logout = async (req, res) => {
     });
   }
 };
-
+// to forget the password directly sent the otp on mail of the registered user and
 export const forgetpassword = async (req, res) => {
   const { email } = req.body;
 
@@ -207,29 +206,13 @@ export const forgetpassword = async (req, res) => {
   user.otpexpiry = OTPExpiry;
   await user.save();
 
-  res.status(201).json({
+ return res.status(201).json({
     success: true,
     message: "mail sent succesfully",
   });
   await Otpmail({ email: user.email, OTP: OTP });
 };
-
-export const changepassword = async () => {
-  const { newpassword, confirmpassword } = req.body;
-  const email = email.params.body;
-  const user = await User.findOne({ email });
-
-  if (newpassword !== confirmpassword) {
-    res.status(404).json({
-      success: false,
-      message: "password not match",
-    });
-  }
-
-  user.password = newpassword;
-  await user.save();
-};
-
+// verify the otp to check entered otp is correct 
 export const verifyOTP = async (req, res) => {
   try {
     const { otp, email } = req.body;
@@ -258,9 +241,39 @@ export const verifyOTP = async (req, res) => {
       message: "Password change successfull",
     });
   } catch (error) {
-    res.status(500).json({
+   return res.status(500).json({
       success: false,
       message: error.meassege,
     });
+  }
+};
+
+// change the password directly
+export const changepassword = async (req, res) => {
+  try {
+    const { email, newpassword, confirmpassword } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    if (newpassword !== confirmpassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Passwords do not match",
+      });
+    }
+    const finalpass = await bcrypt.hash(newpassword, 10);
+    user.password = finalpass;
+    await user.save();
+   return res.status(200).json({
+      success: true,
+      message: "Password updated successfully",
+    });
+  } catch (error) {
+   return res.status(500).json({ success: false, message: error.message });
   }
 };

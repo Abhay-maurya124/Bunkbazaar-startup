@@ -5,7 +5,6 @@ export const isAuthentication = (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
 
-    // 1. Check if header exists
     if (!authHeader || !authHeader.startsWith("Bearer")) {
       return res.status(401).json({
         success: false,
@@ -15,7 +14,6 @@ export const isAuthentication = (req, res, next) => {
 
     const token = authHeader.split(" ")[1];
 
-    // 2. Verify Token
     jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
       if (err) {
         const message = err.name === "TokenExpiredError" 
@@ -25,7 +23,6 @@ export const isAuthentication = (req, res, next) => {
         return res.status(401).json({ success: false, message });
       }
 
-      // 3. Check User
       const user = await User.findById(decoded.id);
       if (!user) {
         return res.status(401).json({
@@ -34,7 +31,6 @@ export const isAuthentication = (req, res, next) => {
         });
       }
 
-      // 4. Success! Attach user and move to next middleware
       req.UserId = user.id;
       next(); 
     });

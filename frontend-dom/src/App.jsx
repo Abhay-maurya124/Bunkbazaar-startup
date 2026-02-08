@@ -10,6 +10,7 @@ import Register from './Authentication/Register'
 import Login from './Authentication/Login'
 import Verify from './Authentication/Verify'
 import Blog from './Pages/Blog'
+import Verifyemail from './Authentication/Verifyemail'
 
 // Layout with Navbar + Footer
 function Layout() {
@@ -32,7 +33,8 @@ function App() {
         {/* Auth routes (no navbar/footer) */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/verify/:token" element={<Verify />} />
+        <Route path="/verify" element={<Verify />} />
+        <Route path="/verify-email/:token" element={<Verifyemail />} />
 
         {/* Routes WITH Navbar/Footer */}
         <Route path="/" element={<Layout />}>

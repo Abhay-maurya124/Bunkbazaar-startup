@@ -15,7 +15,7 @@ const route = express.Router();
 route.use(express.json());
 
 route.post("/register", validateuser, register);
-route.post("/verify-email", verifiction);
+route.post("/verify-email/:token", verifiction);
 route.post("/login", login);
 route.post("/forgetpassword", forgetpassword);
 route.post("/verifyOTP", verifyOTP);

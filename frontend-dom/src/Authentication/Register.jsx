@@ -22,18 +22,20 @@ const Register = () => {
     e.preventDefault()
     try {
       setloading(true)
-      await axios.post("http://localhost:3000/user/v3/register", Change, {
+      const res = await axios.post("http://localhost:3000/user/v3/register", Change, {
         'headers': {
           'Content-Type': 'application/json',
         },
       })
+      
+      console.log(res.data)
       navigate('/verify')
     } catch (error) {
       console.error("Registration Error:", error.response ? error.response.data : error.message);
     }
     finally {
       setloading(false)
-    }
+    } 
   }
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gray-100">
@@ -79,7 +81,7 @@ const Register = () => {
         >
           Register
         </button>
-         </div>}
+      </div>}
     </div>
   )
 }

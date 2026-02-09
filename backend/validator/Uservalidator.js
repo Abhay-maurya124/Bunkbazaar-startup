@@ -21,7 +21,7 @@ export const validateuser = async (req, res, next) => {
   } catch (error) {
     // This stops the "hanging" request and tells the user what's wrong
     return res.status(400).json({ 
-      success: false, 
+      success: false,
       errors: error.errors 
     });
   }

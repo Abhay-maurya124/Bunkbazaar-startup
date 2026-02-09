@@ -51,7 +51,6 @@ export const register = async (req, res) => {
 /*
 worked as a gateway for the original user that user click on the link sent on the gmail then it return the isverfied to true and let the user access there data 
 */
-
 export const verifiction = async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
@@ -247,7 +246,6 @@ export const verifyOTP = async (req, res) => {
     });
   }
 };
-
 // change the password directly
 export const changepassword = async (req, res) => {
   try {

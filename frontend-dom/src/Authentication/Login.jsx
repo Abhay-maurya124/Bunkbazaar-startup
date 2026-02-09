@@ -1,9 +1,9 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Login = () => {
-
+const navigate = useNavigate()
   const [Change, setChange] = useState({
     email: '',
     password: ''
@@ -15,6 +15,7 @@ const Login = () => {
       ...prev,
       [name]: value
     }))
+    navigate('/')
   }
 
   const handlesubmit = async (e) => {
@@ -25,6 +26,7 @@ const Login = () => {
         'Content-Type': 'application/json',
       }
     })
+
    } catch (error) {
     console.log('user not found')
       console.error("Registration Error:", error.response ? error.response.data : error.message);

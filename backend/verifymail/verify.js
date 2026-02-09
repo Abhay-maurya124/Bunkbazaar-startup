@@ -17,8 +17,7 @@ const verifymail = async (token, email, username) => {
   const source = fs.readFileSync(templatePath, "utf-8");
   const template = handlebars.compile(source);
 
-  const verificationUrl = `http://localhost:3000/api/v3/verify/${token}`;
-
+const verificationUrl = `http://localhost:5173/verify-email/${token}`;
   const htmlToSend = template({
     username: username,
     verificationUrl: verificationUrl,

@@ -1,9 +1,11 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
 
 const Login = () => {
-const navigate = useNavigate()
+
+  const navigate = useNavigate()
   const [Change, setChange] = useState({
     email: '',
     password: ''
@@ -15,28 +17,44 @@ const navigate = useNavigate()
       ...prev,
       [name]: value
     }))
-    navigate('/')
   }
 
   const handlesubmit = async (e) => {
     e.preventDefault()
-   try {
-     const res = await axios.post('http://localhost:3000/user/v3/login', Change, {
-      'headers': {
-        'Content-Type': 'application/json',
-      }
-    })
+    try {
+      const res = await axios.post('http://localhost:3000/user/v3/login', Change, {
+        'headers': {
+          'Content-Type': 'application/json',
+        }
+      })
 
-   } catch (error) {
-    console.log('user not found')
-      console.error("Registration Error:", error.response ? error.response.data : error.message);
-   }
+      if (res.data.success == true) {
+        setTimeout(() => {
+          navigate('/')
+        }, 2000)
+        toast("Login Success");
+
+      }
+    } catch (error) {
+      const message =
+        error.response?.data?.message || "Login failed. Try again";
+
+      toast.error(message);
+    }
   }
   return (
 
     <>
       <div className="min-h-screen w-full flex items-center justify-center bg-gray-100">
-
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick={true}
+          rtl={false}
+          theme="dark"
+        />
         <div className="w-full max-w-md bg-gray-900 rounded-2xl shadow-2xl p-8">
 
           <h1 className="text-3xl font-bold text-white text-center mb-6">
@@ -66,12 +84,14 @@ const navigate = useNavigate()
 
           </div>
           <button
-            onClick={handlesubmit} className="w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold py-3 rounded-lg transition duration-200"
+            onClick={handlesubmit} className="w-full mt-4 bg-amber-500 hover:bg-amber-600 text-black font-semibold py-3 rounded-lg transition duration-200"
           >
             login
           </button>
-
-
+          <div className='flex gap-2 text-white'>
+            <p>Don't have account?</p>
+            <Link to='/register'><p className='text-amber-300 hover:underline'>Register here</p> </Link>
+          </div>
           <div className="flex justify-between mt-6 text-sm">
             <Link to="/forget-password" className="text-amber-400 hover:underline">
               Forgot Password?

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../Assets/logo.png';
+import Authtoggle from '../mini-component/Authtoggle';
 
 const Navbar = () => {
-   
+
     return (
         <div className='sticky top-0 z-50 w-full bg-white border-b-4 border-black px-6 md:px-12 py-3'>
             <nav className='flex justify-between items-center max-w-360 mx-auto'>
@@ -43,16 +44,7 @@ const Navbar = () => {
                             <Link to="/blog">Blog</Link>
                         </li>
                     </ul>
-
-                    <div className='flex items-center gap-3'>
-                        <button className="hidden sm:block px-6 py-2 rounded-xl font-black uppercase border-2 border-black hover:bg-slate-100 transition-all active:translate-y-1">
-                            <Link to="/login"> Login</Link>
-                        </button>
-
-                        <button className="px-6 py-2 rounded-xl font-black uppercase bg-amber-400 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-amber-500 transition-all active:shadow-none active:translate-x-1 active:translate-y-1">
-                            <Link to="/register">Register</Link>
-                        </button>
-                    </div>
+                    <Authtoggle />
                 </div>
             </nav>
         </div>

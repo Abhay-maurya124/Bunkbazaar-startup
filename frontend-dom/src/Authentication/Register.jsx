@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify';
 
 const Register = () => {
   const navigate = useNavigate()
@@ -27,20 +28,29 @@ const Register = () => {
           'Content-Type': 'application/json',
         },
       })
-      
-      console.log(res.data)
-      navigate('/verify')
+
+
+      if (res.data.success == true) {
+        setTimeout(() => {
+          navigate('/verify')
+        }, 3000)
+        toast("register Successfull");
+
+      }
     } catch (error) {
-      console.error("Registration Error:", error.response ? error.response.data : error.message);
+      const message =
+        error.response?.data?.message || "Login failed. Try again";
+
+      toast.error(message);
     }
     finally {
       setloading(false)
-    } 
+    }
   }
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gray-100">
       {loading ? 'wait some second' : <div className="w-full max-w-md bg-gray-900 rounded-2xl shadow-2xl p-8">
-
+        <ToastContainer />
         <h1 className="text-3xl font-bold text-white text-center mb-6">
           Register Now
         </h1>
@@ -77,10 +87,14 @@ const Register = () => {
 
         </div>
         <button
-          onClick={handlesubmit} className="w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold py-3 rounded-lg transition duration-200"
+          onClick={handlesubmit} className="w-full mt-3 bg-amber-500 text-lg hover:bg-amber-600 text-black font-semibold py-3 rounded-lg transition duration-200"
         >
           Register
         </button>
+        <div className='flex gap-2 text-white'>
+          <p>Already have account?</p>
+          <Link to='/login'><p className='text-amber-300 hover:underline'>Login here</p> </Link>
+        </div>
       </div>}
     </div>
   )

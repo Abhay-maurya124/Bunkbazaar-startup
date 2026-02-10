@@ -55,6 +55,22 @@ app.get("/api/products/all", async (req, res) => {
     });
   }
 });
+app.get("/user/v3/profile", async (req, res) => {
+  try {
+    const user = await mongoose.connection.db
+      .collection("users")
+      .find({})
+      .toArray();
+    res.json(user);
+  } catch (err) {
+    console.error("Error in /api/products:", err);
+
+    res.status(500).json({
+      message: "Error fetching products",
+      error: err.message,
+    });
+  }
+});
 
 app.use("/user/v3", route);
 

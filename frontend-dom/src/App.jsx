@@ -11,6 +11,8 @@ import Login from './Authentication/Login'
 import Verify from './Authentication/Verify'
 import Blog from './Pages/Blog'
 import Verifyemail from './Authentication/Verifyemail'
+import ForgetPassword from './Authentication/ForgetPassword'
+import ChangePassword from './Authentication/ChangePassword'
 
 // Layout with Navbar + Footer
 function Layout() {
@@ -33,6 +35,8 @@ function App() {
         {/* Auth routes (no navbar/footer) */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgetpassword" element={<ForgetPassword />} />
+        <Route path="/changepass" element={<ChangePassword />} />
         <Route path="/verify" element={<Verify />} />
         <Route path="/verify-email/:token" element={<Verifyemail />} />
 

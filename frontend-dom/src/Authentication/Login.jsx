@@ -52,11 +52,9 @@ const Login = () => {
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick={true}
-          rtl={false}
           theme="dark"
         />
         <div className="w-full max-w-md bg-gray-900 rounded-2xl shadow-2xl p-8">
-
           <h1 className="text-3xl font-bold text-white text-center mb-6">
             login Now
           </h1>
@@ -93,14 +91,10 @@ const Login = () => {
             <Link to='/register'><p className='text-amber-300 hover:underline'>Register here</p> </Link>
           </div>
           <div className="flex justify-between mt-6 text-sm">
-            <Link to="/forget-password" className="text-amber-400 hover:underline">
+            <Link to="/forgetpassword" className="text-amber-400 hover:underline">
               Forgot Password?
             </Link>
-            <Link to="/change-password" className="text-amber-400 hover:underline">
-              Change Password?
-            </Link>
           </div>
-
         </div>
       </div>
     </>)

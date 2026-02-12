@@ -11,10 +11,8 @@ import Login from './Authentication/Login'
 import Verify from './Authentication/Verify'
 import Blog from './Pages/Blog'
 import Verifyemail from './Authentication/Verifyemail'
-import ForgetPassword from './Authentication/ForgetPassword'
-import ChangePassword from './Authentication/ChangePassword'
+import ResetPasswordWizard from './Authentication/ForgetPassword'
 
-// Layout with Navbar + Footer
 function Layout() {
   return (
     <div className="app-root">
@@ -32,15 +30,12 @@ function App() {
     <BrowserRouter>
       <Routes>
 
-        {/* Auth routes (no navbar/footer) */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/forgetpassword" element={<ForgetPassword />} />
-        <Route path="/changepass" element={<ChangePassword />} />
+        <Route path="/forgetpassword" element={<ResetPasswordWizard />} />
         <Route path="/verify" element={<Verify />} />
         <Route path="/verify-email/:token" element={<Verifyemail />} />
 
-        {/* Routes WITH Navbar/Footer */}
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="order" element={<Order />} />

@@ -111,7 +111,7 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-     return res.status(401).json({
+      return res.status(401).json({
         success: false,
         message: "All feilds are required",
       });
@@ -133,7 +133,7 @@ export const login = async (req, res) => {
     }
 
     if (user.isverified !== true) {
-     return res.status(404).json({
+      return res.status(404).json({
         success: false,
         message: "Verification needed",
       });
@@ -204,14 +204,14 @@ export const forgetpassword = async (req, res) => {
   user.otp = OTP;
   user.otpexpiry = OTPExpiry;
   await user.save();
+  Otpmail({ email: user.email, OTP: OTP });
 
- return res.status(201).json({
+  return res.status(201).json({
     success: true,
     message: "mail sent succesfully",
   });
-  await Otpmail({ email: user.email, OTP: OTP });
 };
-// verify the otp to check entered otp is correct 
+// verify the otp to check entered otp is correct
 export const verifyOTP = async (req, res) => {
   try {
     const { otp, email } = req.body;
@@ -240,7 +240,7 @@ export const verifyOTP = async (req, res) => {
       message: "Password change successfull",
     });
   } catch (error) {
-   return res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: error.meassege,
     });
@@ -267,11 +267,59 @@ export const changepassword = async (req, res) => {
     const finalpass = await bcrypt.hash(newpassword, 10);
     user.password = finalpass;
     await user.save();
-   return res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Password updated successfully",
     });
   } catch (error) {
-   return res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+export const handleCart = async (req, res) => {
+  try {
+    const { ProductId, quantity = 1 } = req.body;
+    const userId = req.body.userId || req.user?._id;
+
+    if (!ProductId) {
+      return res.status(400).json({
+        success: false,
+        message: "ProductId not found",
+      });
+    }
+
+    if (quantity < 1) {
+      return res.status(400).json({
+        success: false,
+        message: "Quantity must be at least 1",
+      });
+    }
+    const user = await User.findById(userId);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+    const cartItemIndex = user.cart.findIndex(
+      (item) => item.ProductId.toString() === ProductId,
+    );
+
+    if (cartItemIndex > -1) {
+      user.cart[cartItemIndex].quantity += quantity;
+    } else {
+      user.cart.push({ ProductId, quantity });
+    }
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Product added to cart successfully",
+      cart: user.cart,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong or server error",
+      error: error.message,
+    });
   }
 };

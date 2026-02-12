@@ -1,11 +1,13 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
+import { Contextprovider } from '../NewContext/NewContext';
 
 const Login = () => {
-
   const navigate = useNavigate()
+  const { userdata } = useContext(Contextprovider)
+
   const [Change, setChange] = useState({
     email: '',
     password: ''
@@ -21,48 +23,43 @@ const Login = () => {
 
   const handlesubmit = async (e) => {
     e.preventDefault()
+    
+    const toastId = toast.loading("Logging in..."); 
+
     try {
       const res = await axios.post('http://localhost:3000/user/v3/login', Change, {
-        'headers': {
-          'Content-Type': 'application/json',
-        }
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true
       })
 
-      if (res.data.success == true) {
-        setTimeout(() => {
-          navigate('/')
-        }, 2000)
-        toast("Login Success");
+      if (res.data.success) {
+        toast.update(toastId, { render: "Welcome back!", type: "success", isLoading: false, autoClose: 2000 });
+        if (userdata) {
+          await userdata(); 
+        }
 
+        setTimeout(() => {
+          navigate('/');
+        }, 1500);
       }
     } catch (error) {
-      const message =
-        error.response?.data?.message || "Login failed. Try again";
-
-      toast.error(message);
+      const message = error.response?.data?.message || "Login failed. Try again";
+      toast.update(toastId, { render: message, type: "error", isLoading: false, autoClose: 3000 });
     }
   }
-  return (
 
+  return (
     <>
       <div className="min-h-screen w-full flex items-center justify-center bg-gray-100">
-        <ToastContainer
-          position="top-right"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick={true}
-          theme="dark"
-        />
+        <ToastContainer theme="dark" limit={1} /> 
         <div className="w-full max-w-md bg-gray-900 rounded-2xl shadow-2xl p-8">
           <h1 className="text-3xl font-bold text-white text-center mb-6">
-            login Now
+            Login Now
           </h1>
-          <div className='space-y-4'>
-
+          <form onSubmit={handlesubmit} className='space-y-4'>
             <input
               type="email"
-              placeholder="email"
+              placeholder="Email"
               required
               name='email'
               value={Change.email}
@@ -80,15 +77,17 @@ const Login = () => {
               className="w-full px-4 py-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-amber-500"
             />
 
-          </div>
-          <button
-            onClick={handlesubmit} className="w-full mt-4 bg-amber-500 hover:bg-amber-600 text-black font-semibold py-3 rounded-lg transition duration-200"
-          >
-            login
-          </button>
-          <div className='flex gap-2 text-white'>
+            <button
+              type="submit"
+              className="w-full mt-4 bg-amber-500 hover:bg-amber-600 text-black font-semibold py-3 rounded-lg transition duration-200"
+            >
+              Login
+            </button>
+          </form>
+
+          <div className='flex gap-2 text-white mt-4'>
             <p>Don't have account?</p>
-            <Link to='/register'><p className='text-amber-300 hover:underline'>Register here</p> </Link>
+            <Link to='/register' className='text-amber-300 hover:underline'>Register here</Link>
           </div>
           <div className="flex justify-between mt-6 text-sm">
             <Link to="/forgetpassword" className="text-amber-400 hover:underline">
@@ -97,7 +96,8 @@ const Login = () => {
           </div>
         </div>
       </div>
-    </>)
+    </>
+  )
 }
 
 export default Login

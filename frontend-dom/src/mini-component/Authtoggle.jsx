@@ -1,28 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Contextprovider } from '../NewContext/NewContext'
-import Auth from './Auth'
-import User from './User'
+import React, { useContext } from 'react';
+import { Contextprovider } from '../NewContext/NewContext';
+import Auth from './Auth';
+import User from './User';
 
 const Authtoggle = () => {
-    const { Userdata } = useContext(Contextprovider)
-    const [islogin, setislogin] = useState(false)
-    useEffect(() => {
-        if (Userdata[0]?.islogged == true) {
-            setislogin(true)
-        }
-    }, [Userdata])
+    const { Userdata, loading } = useContext(Contextprovider);
+
+    if (loading) return <div className="animate-pulse">...</div>;
+
+    // source of truth: does the Userdata object exist and have data?
+    const isAuthenticated = Userdata && (Userdata.islogged || Userdata[0]?.islogged || Userdata._id);
+
     return (
-        <div>
-            {islogin ? (
-                <div>
-                    <User />
-                </div>
-            ) : (
-                <div>
-                    <Auth />
-                </div>
-            )}
+        <div className="flex items-center">
+            {isAuthenticated ? <User /> : <Auth />}
         </div>
-    )
-}
-export default Authtoggle
+    );
+};
+
+export default Authtoggle;

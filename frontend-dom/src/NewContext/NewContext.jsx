@@ -1,56 +1,64 @@
 import React, { useState, useEffect, createContext } from "react";
+import axios from "axios";
 
 export const Contextprovider = createContext();
 
+axios.defaults.withCredentials = true;
+
 const NewContext = ({ children }) => {
+    const [Userdata, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [Product, setProduct] = useState([]);
-    const [Userdata, setUser] = useState([]);
     const [error, setError] = useState(null);
 
-    const fetchdata = async () => {
+    const fetchUser = async () => {
         try {
-            const res = await fetch("http://localhost:3000/api/products/all");
-            if (!res.ok) {
-                throw new Error(`HTTP error! status: ${res.status}`);
+            const res = await axios.get("http://localhost:3000/user/v3/profile");
+            if (res.data) {
+                setUser(res.data);
             }
-
-            const data = await res.json();
-            setProduct(data);
-
         } catch (err) {
-            console.error("Fetch error:", err);
+            setUser(null);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchProducts = async () => {
+        try {
+            const res = await axios.get("http://localhost:3000/api/products/all");
+            setProduct(res.data.products || res.data);
+        } catch (err) {
             setError(err.message);
         }
     };
 
-    useEffect(() => {
-        fetchdata();
-    }, []);
-
-    const userdata = async () => {
+    const logoutUser = async () => {
         try {
-            const res = await fetch("http://localhost:3000/user/v3/profile");
-            if (!res.ok) {
-                throw new Error(`HTTP error! status: ${res.status}`);
-            }
-
-            const data = await res.json();
-            setUser(data);
-
+            await axios.post("http://localhost:3000/user/v3/logout");
+            setUser(null);
         } catch (err) {
-            console.error("Fetch error:", err);
-            setError(err.message);
+            console.error("Logout failed", err);
         }
     };
 
     useEffect(() => {
-        userdata();
+        fetchUser();
+        fetchProducts();
     }, []);
-
-
 
     return (
-        <Contextprovider.Provider value={{ Product, error, Userdata }}>
+        <Contextprovider.Provider value={{
+            Userdata,
+            setUser,
+            fetchUser,
+            userdata: fetchUser,
+            logoutUser,
+            loading,
+            Product,
+            setProduct,
+            error
+        }}>
             {children}
         </Contextprovider.Provider>
     );

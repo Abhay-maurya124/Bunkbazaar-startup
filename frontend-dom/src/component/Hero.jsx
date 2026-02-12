@@ -32,7 +32,6 @@ const Hero = () => {
 
   return (
     <div className="selection:bg-amber-300">
-      {/* Front Page / Hero Section */}
       <div className="grid min-h-[85vh] grid-cols-1 md:grid-cols-2 bg-linear-to-b from-[#faecb8] to-white px-6 md:px-28 py-12 gap-10 items-center">
         <div className="space-y-8">
           <div className="inline-block bg-white border-2 border-black px-4 py-1 rounded-full text-sm font-bold uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-4">
@@ -120,7 +119,6 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Product Card Grid */}
       <div className="max-w-7xl mx-auto px-6 py-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {filteredProducts.map((item, idx) => (
@@ -144,7 +142,6 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Comparison Table */}
       <div className="bg-slate-900 py-24 px-6 text-white">
         <h2 className="text-4xl md:text-5xl font-black text-center mb-16 uppercase italic">Why we beat the others</h2>
         <div className="max-w-5xl mx-auto overflow-x-auto">
@@ -169,7 +166,6 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* FAQ Section */}
       <div className="max-w-3xl mx-auto py-24 px-6">
         <h2 className="text-5xl font-black text-center mb-12 uppercase italic underline decoration-amber-400 underline-offset-8">FAQ</h2>
         <div className="space-y-4">

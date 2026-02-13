@@ -275,51 +275,34 @@ export const changepassword = async (req, res) => {
     return res.status(500).json({ success: false, message: error.message });
   }
 };
+
 export const handleCart = async (req, res) => {
   try {
-    const { ProductId, quantity = 1 } = req.body;
-    const userId = req.body.userId || req.user?._id;
-
-    if (!ProductId) {
-      return res.status(400).json({
-        success: false,
-        message: "ProductId not found",
-      });
-    }
-
-    if (quantity < 1) {
-      return res.status(400).json({
-        success: false,
-        message: "Quantity must be at least 1",
-      });
-    }
-    const user = await User.findById(userId);
+    const userid = req.UserId;
+    const { productId, quantity = 1 } = req.body;
+    const user = await User.findById(userid).populate("cart.productId");
     if (!user) {
-      return res
-        .status(404)
-        .json({ success: false, message: "User not found" });
+      return res.status(404).json({
+        success: false,
+        message: "user not found",
+      });
     }
-    const cartItemIndex = user.cart.findIndex(
-      (item) => item.ProductId.toString() === ProductId,
-    );
 
-    if (cartItemIndex > -1) {
-      user.cart[cartItemIndex].quantity += quantity;
-    } else {
-      user.cart.push({ ProductId, quantity });
-    }
+    const cartitem = {
+      productId,
+      quantity: quantity || 1,
+    };
+    await user.cart.push(cartitem);
     await user.save();
-
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
-      message: "Product added to cart successfully",
-      cart: user.cart,
+      message: "item add successfully",
     });
   } catch (error) {
+    console.error(error);
     return res.status(500).json({
       success: false,
-      message: "Something went wrong or server error",
-      error: error.message,
+      message: "Server error",
     });
   }
 };

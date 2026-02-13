@@ -13,12 +13,11 @@ const Order = () => {
 
     const fetchdata = async () => {
         setloading(true)
-        seterror(false) // Reset error on new fetch
+        seterror(false) 
         try {
             const res = await fetch(`http://localhost:3000/api/products?page=${page}&limit=${slice}&search=${search}`)
             const data = await res.json();
             
-            // Assuming data is the array of products
             setProduct(data)
         } catch (error) {
             console.error(error)
@@ -30,16 +29,14 @@ const Order = () => {
     }
 
     useEffect(() => {
-        // Debounce search or just fetch on change
         fetchdata()
     }, [slice, page, search])
 
     const handlesearch = (e) => {
         setsearch(e.target.value)
-        setpage(1) // Reset to page 1 when searching
+        setpage(1) 
     }
 
-    // Logic to determine if no items were found
     const noResults = !loading && !error && Product.length === 0;
 
     return (

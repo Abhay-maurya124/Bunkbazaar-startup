@@ -10,7 +10,7 @@ import {
   verifyOTP,
 } from "../controller/usercontroller.js";
 import { isAuthentication } from "../middleware/isAuthenticated.js";
-import { userschema, validateuser } from "../validator/Uservalidator.js";
+import { validateuser } from "../validator/Uservalidator.js";
 
 const route = express.Router();
 route.use(express.json());
@@ -22,6 +22,6 @@ route.post("/forgetpassword", forgetpassword);
 route.post("/verifyOTP", verifyOTP);
 route.post("/changepass", changepassword);
 route.post("/logout", isAuthentication, logout);
-route.get("/cartitem", handleCart);
+route.post("/cartitem", isAuthentication, handleCart);
 
 export default route;

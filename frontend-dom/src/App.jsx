@@ -12,6 +12,7 @@ import Verify from './Authentication/Verify'
 import Blog from './Pages/Blog'
 import Verifyemail from './Authentication/Verifyemail'
 import ResetPasswordWizard from './Authentication/ForgetPassword'
+import Cart from './Pages/Cart'
 
 function Layout() {
   return (
@@ -39,6 +40,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="order" element={<Order />} />
+          <Route path="cart" element={<Cart />} />
           <Route path="bussiness" element={<Bussiness />} />
           <Route path="career" element={<Career />} />
           <Route path="blog" element={<Blog />} />

@@ -9,13 +9,15 @@ const userschema = new mongoose.Schema(
     islogged: { type: Boolean, default: false },
     otp: { type: String, default: null },
     otpexpiry: { type: Date, default: null },
-    cart: {
-      ProductId: {
-        type: mongoose.Schema.ObjectId,
-        ref: "Bunkbazaar",
+    cart: [
+      {
+        productId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Bunkbazaar",
+        },
+        quantity: { type: Number, default: 0 },
       },
-      quantity: { type: number, default: 0 },
-    },
+    ],
   },
   { timestamps: true },
 );

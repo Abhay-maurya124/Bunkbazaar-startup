@@ -3,9 +3,9 @@ import mongoose from "mongoose";
 const database = async () => {
   try {
     await mongoose.connect(process.env.MONGOURI);
-    console.log("✅ Database is connected");
+    console.log("Database is connected");
   } catch (error) {
-    console.log("❌ DB Connection Error:", err);
+    console.log("DB Connection Error:", err);
   }
 };
 

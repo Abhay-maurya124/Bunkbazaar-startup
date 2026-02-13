@@ -78,5 +78,5 @@ app.use("/user/v3", route);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log("🚀 Server is running at", PORT);
+  console.log("Server is running at", PORT);
 });

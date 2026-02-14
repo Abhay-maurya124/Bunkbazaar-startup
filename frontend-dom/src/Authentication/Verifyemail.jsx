@@ -7,6 +7,7 @@ const Verifyemail = () => {
     const { token } = useParams()
     const [status, setstatus] = useState("verifying....")
     const navigate = useNavigate()
+    localStorage.setItem("token", token)
     useEffect(() => {
         const verifyusermail = async () => {
             try {

@@ -8,7 +8,6 @@ const Authtoggle = () => {
 
     if (loading) return <div className="animate-pulse">...</div>;
 
-    // source of truth: does the Userdata object exist and have data?
     const isAuthenticated = Userdata && (Userdata.islogged || Userdata[0]?.islogged || Userdata._id);
 
     return (

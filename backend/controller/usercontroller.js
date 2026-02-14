@@ -281,6 +281,7 @@ export const handleCart = async (req, res) => {
     const userid = req.UserId;
     const { productId, quantity = 1 } = req.body;
     const user = await User.findById(userid).populate("cart.productId");
+    console.log(user.cart);
     if (!user) {
       return res.status(404).json({
         success: false,

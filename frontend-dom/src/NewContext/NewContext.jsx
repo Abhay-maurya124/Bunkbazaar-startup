@@ -8,7 +8,7 @@ axios.defaults.withCredentials = true;
 const NewContext = ({ children }) => {
     const [Userdata, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [Product, setProduct] = useState([]);
+    const [Products, setProduct] = useState([]);
     const [error, setError] = useState(null);
 
     const fetchUser = async () => {
@@ -55,7 +55,7 @@ const NewContext = ({ children }) => {
             userdata: fetchUser,
             logoutUser,
             loading,
-            Product,
+            Products,
             setProduct,
             error
         }}>

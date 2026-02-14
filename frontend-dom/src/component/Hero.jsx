@@ -16,13 +16,12 @@ const Hero = () => {
     { id: 5, question: "Are there any hidden fees?", answer: "No. bunkBazzar prides itself on transparency. All pricing is shown upfront." },
   ];
 
-  const { Product = [] } = useContext(Contextprovider);
+  const { Products = [] } = useContext(Contextprovider);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [drop, setdrop] = useState(-1);
-
-  const uniqueCategories = [...new Set(Product.map((item) => item.category))];
-  const filteredProducts = Product.filter((item) => {
+  const uniqueCategories = [...new Set(Products.map((item) => item.category))];
+  const filteredProducts = Products.filter((item) => {
     const matchesSearch = item.title.toLowerCase().includes(search.toLowerCase()) || item.description.toLowerCase().includes(search.toLowerCase());
     const matchesCategory = selectedCategory === "" || item.category === selectedCategory;
     return matchesSearch && matchesCategory;

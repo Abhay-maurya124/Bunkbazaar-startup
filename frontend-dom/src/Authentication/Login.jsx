@@ -23,8 +23,8 @@ const Login = () => {
 
   const handlesubmit = async (e) => {
     e.preventDefault()
-    
-    const toastId = toast.loading("Logging in..."); 
+
+    const toastId = toast.loading("Logging in...");
 
     try {
       const res = await axios.post('http://localhost:3000/user/v3/login', Change, {
@@ -35,7 +35,7 @@ const Login = () => {
       if (res.data.success) {
         toast.update(toastId, { render: "Welcome back!", type: "success", isLoading: false, autoClose: 2000 });
         if (userdata) {
-          await userdata(); 
+          await userdata();
         }
 
         setTimeout(() => {
@@ -51,7 +51,7 @@ const Login = () => {
   return (
     <>
       <div className="min-h-screen w-full flex items-center justify-center bg-gray-100">
-        <ToastContainer theme="dark" limit={1} /> 
+        <ToastContainer theme="dark" limit={1} />
         <div className="w-full max-w-md bg-gray-900 rounded-2xl shadow-2xl p-8">
           <h1 className="text-3xl font-bold text-white text-center mb-6">
             Login Now

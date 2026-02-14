@@ -4,6 +4,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import database from "./modules/database.js";
 import route from "./routes/userroutes.js";
+import { Product } from "./modules/Productschema.js";
 const app = express();
 database();
 app.use(
@@ -65,7 +66,7 @@ app.get("/user/v3/profile", async (req, res) => {
       .toArray();
     res.json(user);
   } catch (err) {
-    console.error("Error in /api/products:", err);
+    console.error("Error in /api/profile:", err);
 
     res.status(500).json({
       message: "Error fetching products",
@@ -73,7 +74,6 @@ app.get("/user/v3/profile", async (req, res) => {
     });
   }
 });
-
 app.use("/user/v3", route);
 
 const PORT = process.env.PORT || 5000;

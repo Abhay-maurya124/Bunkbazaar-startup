@@ -19,7 +19,6 @@ const Card = ({ data }) => {
           </div>
         )}
       </div>
-
       <div className="p-6 flex flex-col gap-4">
         <div className="flex flex-col gap-1">
           <span className="w-fit bg-amber-400 border-2 border-black px-3 py-0.5 text-[10px] uppercase font-bold rounded-full shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">

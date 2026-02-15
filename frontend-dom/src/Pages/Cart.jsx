@@ -29,7 +29,7 @@ const Cart = () => {
                   key={item.id}
                   className="bg-white border border-gray-200 rounded-xl p-4 flex flex-col sm:flex-row items-center gap-6 hover:shadow-md transition-all duration-300"
                 >
-                  <div className="w-28 h-28 flex-shrink-0 bg-black rounded-lg overflow-hidden">
+                  <div className="w-28 h-28 shrink-0 bg-black rounded-lg overflow-hidden">
                     <Link to={`/singlepage/${id}`}>
                       <img
                         src={item.thumbnail}
@@ -59,7 +59,7 @@ const Cart = () => {
                     >
                       <Minus size={16} strokeWidth={2.5} />
                     </button>
-                    <span className="px-4 font-bold text-gray-800 min-w-[40px] text-center">
+                    <span className="px-4 font-bold text-gray-800 min-w-10 text-center">
                       {item.quantity}
                     </span>
                     <button

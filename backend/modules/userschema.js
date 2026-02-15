@@ -9,6 +9,7 @@ const userschema = new mongoose.Schema(
     islogged: { type: Boolean, default: false },
     otp: { type: String, default: null },
     otpexpiry: { type: Date, default: null },
+    wallet: { type: Number, default: 5 },
     cart: [
       {
         productId: {

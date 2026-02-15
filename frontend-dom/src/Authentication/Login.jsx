@@ -25,7 +25,6 @@ const Login = () => {
     e.preventDefault()
 
     const toastId = toast.loading("Logging in...");
-
     try {
       const res = await axios.post('http://localhost:3000/user/v3/login', Change, {
         headers: { 'Content-Type': 'application/json' },

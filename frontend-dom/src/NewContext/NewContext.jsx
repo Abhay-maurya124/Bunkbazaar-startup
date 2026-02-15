@@ -1,11 +1,11 @@
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState, useEffect, createContext, useContext } from "react";
 import axios from "axios";
 
 export const Contextprovider = createContext();
 
 axios.defaults.withCredentials = true;
 
-const NewContext = ({ children }) => {
+export const NewContext = ({ children }) => {
     const [Userdata, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [Products, setProduct] = useState([]);
@@ -64,4 +64,10 @@ const NewContext = ({ children }) => {
     );
 };
 
-export default NewContext;
+export const useProduct = () => {
+    const productcontext = useContext(Contextprovider)
+    if (!productcontext) {
+        throw new Error("This is happening in contextprovider")
+    }
+    return productcontext
+}

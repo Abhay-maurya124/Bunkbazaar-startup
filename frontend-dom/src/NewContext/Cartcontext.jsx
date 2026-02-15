@@ -15,7 +15,6 @@ const cartReducer = (state, action) => {
                         : item
                 );
             }
-            console.log(existingItem)
             return [...state, { ...action.payload, quantity: 1 }];
 
         case "REMOVE_FROM_CART":
@@ -46,10 +45,8 @@ const cartReducer = (state, action) => {
 
 
 export const Cartcontextdata = ({ children }) => {
-    const [cartitem, dispatch] = useReducer(cartReducer, []);
-
+    const [cartstate, dispatch] = useReducer(cartReducer, []);
     const addtocart = (product) => {
-        console.log("Product being added:", product);
         dispatch({ type: "ADD_TO_CART", payload: product })
     };
     const removefromcart = (id) => dispatch({ type: "REMOVE_FROM_CART", payload: id });
@@ -60,7 +57,7 @@ export const Cartcontextdata = ({ children }) => {
     return (
         <CartContext.Provider value={{
             addtocart,
-            cartitem,
+            cartstate,
             removefromcart,
             incrementcart,
             decrementcart,

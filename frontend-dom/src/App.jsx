@@ -13,6 +13,8 @@ import Blog from './Pages/Blog'
 import Verifyemail from './Authentication/Verifyemail'
 import ResetPasswordWizard from './Authentication/ForgetPassword'
 import Cart from './Pages/Cart'
+import Singlepage from './Pages/Singlepage'
+import Logout from './Authentication/Logout'
 
 function Layout() {
   return (
@@ -35,11 +37,13 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/forgetpassword" element={<ResetPasswordWizard />} />
         <Route path="/verify" element={<Verify />} />
+        <Route path="/logout" element={<Logout />} />
         <Route path="/verify-email/:token" element={<Verifyemail />} />
 
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="order" element={<Order />} />
+          <Route path='/singlepage/:id' element={<Singlepage />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="bussiness" element={<Bussiness />} />
           <Route path="career" element={<Career />} />

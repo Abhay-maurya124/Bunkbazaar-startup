@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Card from '../mini-component/Card'
 import Pagination from '../mini-component/Pagination'
 import { Audio } from "react-loader-spinner";
+import { Link } from 'react-router-dom';
 
 const Order = () => {
     const [Product, setProduct] = useState([])
@@ -13,11 +14,11 @@ const Order = () => {
 
     const fetchdata = async () => {
         setloading(true)
-        seterror(false) 
+        seterror(false)
         try {
             const res = await fetch(`http://localhost:3000/api/products?page=${page}&limit=${slice}&search=${search}`)
             const data = await res.json();
-            
+
             setProduct(data)
         } catch (error) {
             console.error(error)
@@ -34,7 +35,7 @@ const Order = () => {
 
     const handlesearch = (e) => {
         setsearch(e.target.value)
-        setpage(1) 
+        setpage(1)
     }
 
     const noResults = !loading && !error && Product.length === 0;
@@ -63,7 +64,6 @@ const Order = () => {
 
             <div className="max-w-7xl mx-auto px-6">
                 {error ? (
-                    /* API/Network Error State */
                     <div className='flex justify-center py-20'>
                         <div className="bg-white border-4 border-black p-10 rounded-[2rem] shadow-[10px_10px_0px_0px_rgba(239,68,68,1)] text-center max-w-lg">
                             <p className='text-5xl mb-4'>⚠️</p>
@@ -72,14 +72,13 @@ const Order = () => {
                         </div>
                     </div>
                 ) : noResults ? (
-                    /* Search Not Found State */
                     <div className='flex justify-center py-20'>
                         <div className="bg-white border-4 border-black p-10 rounded-[2rem] shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] text-center max-w-lg transform -rotate-1">
                             <h4 className='text-3xl font-bold uppercase italic'>Item Not Found</h4>
                             <p className='font-bold mt-4 text-gray-600'>
-                                We couldn't find <span className="text-red-500 underline">"{search}"</span> in our dorm inventory. 
+                                We couldn't find <span className="text-red-500 underline">"{search}"</span> in our dorm inventory.
                             </p>
-                            <button 
+                            <button
                                 onClick={() => setsearch('')}
                                 className="mt-6 bg-amber-400 border-2 border-black px-6 py-2 font-bold uppercase hover:bg-black hover:text-white transition-colors rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                             >

@@ -9,7 +9,6 @@ const Cart = () => {
   // const { Products } = useProduct()
 
   const totalPrice = cartstate.reduce((acc, item) => acc + ((item.price / (1 - item.discountPercentage / 100)).toFixed(0) * (item.quantity || 1)), 0);
-
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
@@ -30,7 +29,7 @@ const Cart = () => {
                   className="bg-white border border-gray-200 rounded-xl p-4 flex flex-col sm:flex-row items-center gap-6 hover:shadow-md transition-all duration-300"
                 >
                   <div className="w-28 h-28 shrink-0 bg-black rounded-lg overflow-hidden">
-                    <Link to={`/singlepage/${id}`}>
+                    <Link to={`/singlepage/${item.id}`}>
                       <img
                         src={item.thumbnail}
                         alt={item.description}
@@ -84,7 +83,6 @@ const Cart = () => {
               <div className="text-center sm:text-left">
                 <p className="text-gray-400 text-xs font-bold uppercase tracking-widest">Grand Total</p>
                 <h2 className="text-3xl font-black text-gray-900">
-                  {/* ₹{(price / (1 - discountPercentage / 100)).toFixed(0)} */}
                   ₹{totalPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </h2>
               </div>

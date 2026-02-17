@@ -2,9 +2,11 @@ import express from "express";
 import {
   changepassword,
   forgetpassword,
+  getcart,
   handleCart,
   login,
   logout,
+  payment,
   register,
   verifiction,
   verifyOTP,
@@ -20,8 +22,9 @@ route.post("/verify-email/:token", verifiction);
 route.post("/login", login);
 route.post("/forgetpassword", forgetpassword);
 route.post("/verifyOTP", verifyOTP);
+route.post("/payment", payment);
 route.post("/changepass", changepassword);
 route.post("/logout", isAuthentication, logout);
 route.post("/cartitem", isAuthentication, handleCart);
-
+route.get("/getcart", isAuthentication, getcart);
 export default route;

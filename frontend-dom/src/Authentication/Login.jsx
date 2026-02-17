@@ -32,6 +32,8 @@ const Login = () => {
       })
 
       if (res.data.success) {
+        localStorage.setItem("accesstoken", res.data.accesstoken)
+        localStorage.setItem("refreshtoken", res.data.refreshtoken)
         toast.update(toastId, { render: "Welcome back!", type: "success", isLoading: false, autoClose: 2000 });
         if (userdata) {
           await userdata();

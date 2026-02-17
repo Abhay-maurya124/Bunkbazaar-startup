@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useReducer } from 'react';
-
+import React, { createContext, useContext, useEffect, useReducer } from 'react';
+import axios from 'axios'
 export const CartContext = createContext();
 
 
@@ -15,6 +15,7 @@ const cartReducer = (state, action) => {
                         : item
                 );
             }
+
             return [...state, { ...action.payload, quantity: 1 }];
 
         case "REMOVE_FROM_CART":
@@ -33,6 +34,8 @@ const cartReducer = (state, action) => {
                     ? { ...item, quantity: item.quantity - 1 }
                     : item
             );
+        case "SET_CART":
+            return action.payload;
 
         case "CART_CLEAR":
             return [];
@@ -44,15 +47,64 @@ const cartReducer = (state, action) => {
 
 
 
+
 export const Cartcontextdata = ({ children }) => {
     const [cartstate, dispatch] = useReducer(cartReducer, []);
     const addtocart = (product) => {
         dispatch({ type: "ADD_TO_CART", payload: product })
     };
     const removefromcart = (id) => dispatch({ type: "REMOVE_FROM_CART", payload: id });
+    const setcart = (id) => dispatch({ type: "SET_CART", payload: id });
     const incrementcart = (id) => dispatch({ type: "CART_INCREMENT", payload: id });
     const decrementcart = (id) => dispatch({ type: "CART_DECREMENT", payload: id });
     const clearAll = () => dispatch({ type: "CART_CLEAR" });
+
+
+
+    const getAccessToken = () => localStorage.getItem("accesstoken")
+
+    const fetchSavedCart = async () => {
+        const token = getAccessToken();
+        if (!token) return;
+
+        try {
+            const res = await axios.get("http://localhost:3000/user/v3/getcart", {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.data.success && res.data.cart) {
+                dispatch({ type: "SET_CART", payload: res.data.cart });
+            }
+        } catch (error) {
+            console.log("Error fetching cart:", error);
+        }
+    };
+
+    const sendcart = async () => {
+        const token = getAccessToken();
+        if (!token) return;
+
+        try {
+            await axios.post("http://localhost:3000/user/v3/cartitem", { cartstate }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+        } catch (error) {
+            console.log("Error syncing cart:", error);
+        }
+    };
+
+    // Run fetch once on mount
+    useEffect(() => {
+        fetchSavedCart();
+    }, []);
+
+    useEffect(() => {
+        if (cartstate.length > 0) {
+            sendcart();
+        }
+    }, [cartstate]);
 
     return (
         <CartContext.Provider value={{
@@ -61,7 +113,8 @@ export const Cartcontextdata = ({ children }) => {
             removefromcart,
             incrementcart,
             decrementcart,
-            clearAll
+            clearAll,
+            setcart
         }}>
             {children}
         </CartContext.Provider>

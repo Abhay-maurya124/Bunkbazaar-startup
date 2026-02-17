@@ -1,10 +1,13 @@
+import dotenv from "dotenv";
+dotenv.config();
 import { User } from "../modules/userschema.js";
 import { tempSession } from "../modules/Sessionschema.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import verifymail from "../verifymail/verify.js";
 import { Otpmail } from "../verifymail/OTPverify.js";
-
+import Stripe from "stripe";
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 /* registration handle the user data and also collect the data =of username,email,password. so it can add the only original data ,not the fake one . by sending the verification mail with token and also hashed the password using the bcrypt property for the secure password and generating the uniqe token for the user*/
 export const register = async (req, res) => {
   try {
@@ -139,10 +142,10 @@ export const login = async (req, res) => {
       });
     }
 
-    const accesstoken = jwt.sign({ id: User._id }, process.env.SECRET_KEY, {
+    const accesstoken = jwt.sign({ id: user._id }, process.env.SECRET_KEY, {
       expiresIn: "10d",
     });
-    const refreshtoken = jwt.sign({ id: User._id }, process.env.SECRET_KEY, {
+    const refreshtoken = jwt.sign({ id: user._id }, process.env.SECRET_KEY, {
       expiresIn: "30d",
     });
 
@@ -305,5 +308,63 @@ export const handleCart = async (req, res) => {
       success: false,
       message: "Server error",
     });
+  }
+};
+export const payment = async (req, res) => {
+  try {
+    const { cartItems } = req.body;
+
+    if (!cartItems || !Array.isArray(cartItems) || cartItems.length === 0) {
+      return res
+        .status(400)
+        .json({ error: "cartItems must be a non-empty array" });
+    }
+
+    const line_items = cartItems.map((item) => ({
+      price_data: {
+        currency: "inr",
+        product_data: {
+          name: `${item.name} (${item.size})`,
+          images: [item.img],
+        },
+        unit_amount: Math.round(item.price * 100),
+      },
+      quantity: item.qty,
+    }));
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items,
+      mode: "payment",
+      success_url: `${process.env.FRONTEND_URL}/payment-success`,
+      cancel_url: `${process.env.FRONTEND_URL}/payment-fail`,
+    });
+
+    res.json({ url: session.url });
+  } catch (error) {
+    console.error("Stripe error detail:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const getcart = async (req, res) => {
+  try {
+    const userId = req.id; 
+
+    const user = await User.findById(userId).select("cart"); 
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    return res.status(200).json({
+      success: true,
+      cart: user.cart || [], 
+    });
+  } catch (error) {
+    console.error("Fetch cart error:", error);
+    return res.status(500).json({ success: false, message: "Server error" });
   }
 };

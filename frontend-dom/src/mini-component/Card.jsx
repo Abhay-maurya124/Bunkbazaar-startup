@@ -5,8 +5,7 @@ import { ShoppingBag, Truck } from 'lucide-react';
 
 const Card = ({ data }) => {
   const { title, thumbnail, brand, description, price, discountPercentage, _id } = data;
-  const { addtocart } = useCart();
-
+  
   return (
     <div className="group relative bg-white border-2 border-black rounded-[2.5rem] transition-all hover:-translate-x-2 hover:-translate-y-2 hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] w-full overflow-hidden flex flex-col h-full">
       <Link to={`/singlepage/${_id}`} className="block relative h-64 border-b-4 border-black overflow-hidden bg-black">
@@ -60,7 +59,6 @@ const Card = ({ data }) => {
         </div>
 
         <button
-          onClick={() => addtocart(data)}
           className="w-full mt-2 bg-black hover:bg-amber-400 text-white hover:text-black font-black py-4 border-2 border-black rounded-2xl transition-all active:translate-y-1 active:shadow-none uppercase text-xs tracking-widest shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center gap-2 group/btn"
         >
           <ShoppingBag size={16} className="group-hover/btn:rotate-12 transition-transform" />

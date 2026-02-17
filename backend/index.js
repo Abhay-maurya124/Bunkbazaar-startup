@@ -4,7 +4,8 @@ import cors from "cors";
 import mongoose from "mongoose";
 import database from "./modules/database.js";
 import route from "./routes/userroutes.js";
-import { Product } from "./modules/Productschema.js";
+import cartroute from "./routes/Cartroutes.js";
+
 const app = express();
 database();
 app.use(
@@ -75,6 +76,7 @@ app.get("/user/v3/profile", async (req, res) => {
   }
 });
 app.use("/user/v3", route);
+app.use("/user/cart", cartroute);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

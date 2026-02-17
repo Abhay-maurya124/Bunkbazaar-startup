@@ -63,49 +63,6 @@ export const Cartcontextdata = ({ children }) => {
 
     const getAccessToken = () => localStorage.getItem("accesstoken")
 
-    const fetchSavedCart = async () => {
-        const token = getAccessToken();
-        if (!token) return;
-
-        try {
-            const res = await axios.get("http://localhost:3000/user/v3/getcart", {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            if (res.data.success && res.data.cart) {
-                dispatch({ type: "SET_CART", payload: res.data.cart });
-            }
-        } catch (error) {
-            console.log("Error fetching cart:", error);
-        }
-    };
-
-    const sendcart = async () => {
-        const token = getAccessToken();
-        if (!token) return;
-
-        try {
-            await axios.post("http://localhost:3000/user/v3/cartitem", { cartstate }, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-        } catch (error) {
-            console.log("Error syncing cart:", error);
-        }
-    };
-
-    // Run fetch once on mount
-    useEffect(() => {
-        fetchSavedCart();
-    }, []);
-
-    useEffect(() => {
-        if (cartstate.length > 0) {
-            sendcart();
-        }
-    }, [cartstate]);
-
     return (
         <CartContext.Provider value={{
             addtocart,

@@ -175,7 +175,7 @@ export const login = async (req, res) => {
 // logout function stated to logout the user from the web and setting the islooged to false and detele their all sessions
 export const logout = async (req, res) => {
   try {
-    const userid = req.UserId;
+    const userid = req.userId ;
     await tempSession.findByIdAndDelete(userid);
     await User.findByIdAndUpdate(userid, { islogged: false });
     return res.status(201).json({

@@ -3,17 +3,17 @@ import {
   addtocart,
   allcartitem,
   clearcart,
-  getsinglecartitem,
   removefromcart,
-  updatecart,
 } from "../controller/Cartcontroller.js";
+import { isAuthentication } from "../middleware/isAuthenticated.js";
 
 const cartroute = express.Router();
+
 cartroute.use(express.json());
-cartroute.post("/cart/additem", addtocart);
-cartroute.post("/cart/clearall", clearcart);
-cartroute.put("/cart/updateitem/:id", updatecart);
-cartroute.delete("/cart/removefrom/:id", removefromcart);
-cartroute.get("/cart/singlecartitem/:id", getsinglecartitem);
-cartroute.get("/cart/getallitem", allcartitem);
+
+cartroute.post("/cart/additem", isAuthentication, addtocart);
+cartroute.get("/cart/getallitem", isAuthentication, allcartitem);
+cartroute.delete("/cart/clearall", isAuthentication, clearcart);
+cartroute.delete("/cart/removefrom/:id", isAuthentication, removefromcart);
+
 export default cartroute;

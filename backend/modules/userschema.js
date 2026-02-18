@@ -10,15 +10,6 @@ const userschema = new mongoose.Schema(
     otp: { type: String, default: null },
     otpexpiry: { type: Date, default: null },
     wallet: { type: Number, default: 5 },
-    cart: [
-      {
-        productId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Bunkbazaar",
-        },
-        quantity: { type: Number, default: 0 },
-      },
-    ],
   },
   { timestamps: true },
 );

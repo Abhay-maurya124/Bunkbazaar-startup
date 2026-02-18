@@ -30,7 +30,7 @@ export const isAuthentication = (req, res, next) => {
         });
       }
 
-      req.UserId = user.id;
+      req.userId = user.id;
       next(); 
     });
 

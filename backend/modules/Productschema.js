@@ -1,12 +1,23 @@
 import mongoose from "mongoose";
 
-const productschema = new mongoose.Schema(
+const cartSchema = new mongoose.Schema(
   {
-    username: { type: String },
-    description: { type: String },
-    price: { type: Number },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
+    productId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+      required: true,
+    },
+    quantity: {
+      type: Number,
+      default: 1,
+    },
   },
-  { collection: "Bunkbazaar" },
+  { timestamps: true }
 );
-console.log(mongoose.modelNames());
-export const Product = mongoose.model("Bunkbazaar", productschema);
+
+export const Cart = mongoose.model("Cart", cartSchema);

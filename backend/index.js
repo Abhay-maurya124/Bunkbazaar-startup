@@ -2,6 +2,10 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
+import "./modules/Productschema.js";
+import "./modules/userschema.js";
+import "./modules/Product.js";
+
 import database from "./modules/database.js";
 import route from "./routes/userroutes.js";
 import cartroute from "./routes/Cartroutes.js";
@@ -76,7 +80,7 @@ app.get("/user/v3/profile", async (req, res) => {
   }
 });
 app.use("/user/v3", route);
-app.use("/user/cart", cartroute);
+app.use("/user", cartroute);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

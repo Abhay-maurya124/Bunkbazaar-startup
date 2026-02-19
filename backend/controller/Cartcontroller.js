@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import { Cart } from "../modules/Productschema.js";
 import { Product } from "../modules/Product.js";
 
-/* ================= ADD TO CART ================= */
 export const addtocart = async (req, res) => {
   try {
     const { productId, quantity } = req.body;
@@ -63,7 +62,6 @@ export const addtocart = async (req, res) => {
   }
 };
 
-/* ================= REMOVE ITEM ================= */
 export const removefromcart = async (req, res) => {
   try {
     const { id } = req.params;
@@ -89,7 +87,6 @@ export const removefromcart = async (req, res) => {
   }
 };
 
-/* ================= CLEAR CART ================= */
 export const clearcart = async (req, res) => {
   try {
     const userId = req.userId;
@@ -107,7 +104,6 @@ export const clearcart = async (req, res) => {
   }
 };
 
-/* ================= UPDATE QUANTITY ================= */
 export const updatecart = async (req, res) => {
   try {
     const { id } = req.params;
@@ -148,13 +144,11 @@ export const updatecart = async (req, res) => {
   }
 };
 
-/* ================= GET SINGLE ITEM ================= */
 export const getsinglecartitem = async (req, res) => {
   try {
     const { id } = req.params;
-
+    const user = req.userId
     const cartItem = await Cart.findById(id).populate("productId");
-
     if (!cartItem) {
       return res
         .status(404)
@@ -168,7 +162,6 @@ export const getsinglecartitem = async (req, res) => {
   }
 };
 
-/* ================= GET ALL CART ITEMS ================= */
 export const allcartitem = async (req, res) => {
   try {
     const userId = req.userId;

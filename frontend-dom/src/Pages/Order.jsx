@@ -3,8 +3,10 @@ import Card from '../mini-component/Card'
 import Pagination from '../mini-component/Pagination'
 import { Audio } from "react-loader-spinner";
 import { Link } from 'react-router-dom';
+import { useCart } from '../NewContext/Cartcontext';
 
 const Order = () => {
+    const { addtocart } = useCart()
     const [Product, setProduct] = useState([])
     const [slice, setslice] = useState(12)
     const [page, setpage] = useState(1)
@@ -96,7 +98,7 @@ const Order = () => {
                                 </div>
                             ) : (
                                 Product.map((item, idx) => (
-                                    <Card key={item._id || idx} data={item} />
+                                    <Card key={item._id || idx} data={item} addtocart={addtocart} />
                                 ))
                             )}
                         </div>

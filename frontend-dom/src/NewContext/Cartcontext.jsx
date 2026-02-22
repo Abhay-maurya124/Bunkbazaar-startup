@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react';
 import axios from 'axios'
+import { useProduct } from './NewContext';
 export const CartContext = createContext();
 
 const cartReducer = (state, action) => {
@@ -9,17 +10,22 @@ const cartReducer = (state, action) => {
             return action.payload || []
 
         case "ADD_TO_CART":
-            const existingItem = state.find(item => item._id === action.payload._id);
+            const existingItem = state.find(item =>
+                (item.productId?._id || item._id) === action.payload._id
+            );
 
             if (existingItem) {
                 return state.map(item =>
-                    item._id === action.payload._id
+                    (item.productId?._id || item._id) === action.payload._id
                         ? { ...item, quantity: (item.quantity || 1) + 1 }
                         : item
                 );
             }
-
-            return [...state, { ...action.payload, quantity: 1 }];
+            return [...state, {
+                productId: action.payload,
+                quantity: 1,
+                _id: action.payload._id
+            }];
 
         case "REMOVE_FROM_CART":
             return state.filter(item => item._id !== action.payload);
@@ -50,10 +56,11 @@ const cartReducer = (state, action) => {
 
 
 export const Cartcontextdata = ({ children }) => {
-    const Token = localStorage.getItem("accesstoken")
     const [cartstate, dispatch] = useReducer(cartReducer, []);
+    const { Userdata } = useProduct()
 
     const addtocart = async (product) => {
+        const Token = localStorage.getItem("accesstoken")
         const productId = product._id
         const quantity = 1
         try {
@@ -71,33 +78,69 @@ export const Cartcontextdata = ({ children }) => {
 
     };
     const removefromcart = async (id) => {
-        const res = await axios.post(`http://localhost:3000/user/cart/removefromcart/${id}`, {
-            headers: {
-                "Authorization": `Bearer ${Token}`,
-                "Content-Type": "application/json"
-            }
-        })
-        dispatch({ type: "REMOVE_FROM_CART", payload: id })
+        const Token = localStorage.getItem("accesstoken")
+
+        try {
+            await axios.delete(`http://localhost:3000/user/cart/removefromcart/${id}`, {
+                headers: {
+                    "Authorization": `Bearer ${Token}`,
+                    "Content-Type": "application/json"
+                }
+            });
+            dispatch({ type: "REMOVE_FROM_CART", payload: id });
+        } catch (error) {
+            console.error("Remove failed", error);
+        }
     };
     const incrementcart = async (id) => {
-        const res = await axios.post(`http://localhost:3000/user/cart/updatecart/${id}`, {
-            headers: {
-                "Authorization": `Bearer ${Token}`,
-                "Content-Type": "application/json"
-            }
-        })
-        dispatch({ type: "CART_INCREMENT", payload: id });
-    }
+        const item = cartstate.find(i => i._id === id);
+        if (!item) return;
+        const Token = localStorage.getItem("accesstoken")
+
+        const newQuantity = item.quantity + 1;
+
+        try {
+            await axios.patch(`http://localhost:3000/user/cart/updatecart/${id}`,
+                { quantity: newQuantity },
+                {
+                    headers: {
+                        "Authorization": `Bearer ${Token}`,
+                        "Content-Type": "application/json"
+                    }
+                }
+            );
+            dispatch({ type: "CART_INCREMENT", payload: id });
+        } catch (error) {
+            console.error("Increment failed", error);
+        }
+    };
+
     const decrementcart = async (id) => {
-        const res = await axios.post(`http://localhost:3000/user/cart/updatecart/${id}`, {
-            headers: {
-                "Authorization": `Bearer ${Token}`,
-                "Content-Type": "application/json"
-            }
-        })
-        dispatch({ type: "CART_DECREMENT", payload: id })
+        const Token = localStorage.getItem("accesstoken")
+
+        const item = cartstate.find(i => i._id === id);
+        if (!item || item.quantity <= 1) return;
+
+        const newQuantity = item.quantity - 1;
+
+        try {
+            await axios.patch(`http://localhost:3000/user/cart/updatecart/${id}`,
+                { quantity: newQuantity },
+                {
+                    headers: {
+                        "Authorization": `Bearer ${Token}`,
+                        "Content-Type": "application/json"
+                    }
+                }
+            );
+            dispatch({ type: "CART_DECREMENT", payload: id });
+        } catch (error) {
+            console.error("Decrement failed", error);
+        }
     };
     const clearAll = async () => {
+        const Token = localStorage.getItem("accesstoken")
+
         const res = await axios.post(`http://localhost:3000/user/cart/clearall`, {
             headers: {
                 "Authorization": `Bearer ${Token}`,
@@ -108,6 +151,8 @@ export const Cartcontextdata = ({ children }) => {
     };
 
     const synccart = async () => {
+        const Token = localStorage.getItem("accesstoken")
+
         try {
             const res = await axios.get("http://localhost:3000/user/cart/getallitem", {
 
@@ -117,17 +162,16 @@ export const Cartcontextdata = ({ children }) => {
                 }
             })
             dispatch({ type: "SYNC_CART", payload: res.data.cartdata });
-            console.log(res.data)
         } catch (error) {
             console.log(error)
         }
     }
 
     useEffect(() => {
-        synccart();
-    }, []);
-
-
+        if (Userdata?._id) {
+            synccart();
+        }
+    }, [Userdata]);
     return (
         <CartContext.Provider value={{
             addtocart,
@@ -136,7 +180,6 @@ export const Cartcontextdata = ({ children }) => {
             incrementcart,
             decrementcart,
             clearAll,
-
         }}>
             {children}
         </CartContext.Provider>

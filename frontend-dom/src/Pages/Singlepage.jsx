@@ -7,12 +7,9 @@ import { Star, Truck, ShieldCheck, RefreshCcw, Package, Plus, Minus, ArrowBigLef
 const Singlepage = () => {
   const { id } = useParams();
   const { Products, loading, error } = useProduct();
-  const { addtocart } = useCart();
+  const { addtocart, incrementcart, decrementcart } = useCart();
 
   const [quantity, setQuantity] = useState(1);
-
-  const increment = () => setQuantity(prev => prev + 1);
-  const decrement = () => setQuantity(prev => (prev > 1 ? prev - 1 : 1));
 
   if (loading) return <div className="flex justify-center items-center min-h-screen text-gray-500 animate-pulse font-medium">Loading product...</div>;
   if (error) return <div className="text-center mt-20 text-red-500 font-semibold">{error}</div>;
@@ -71,7 +68,7 @@ const Singlepage = () => {
               <p className="text-sm font-bold text-gray-900 uppercase tracking-wider">Select Quantity</p>
               <div className="flex items-center w-max border border-gray-200 rounded-xl bg-gray-50 overflow-hidden">
                 <button
-                  onClick={decrement}
+                  onClick={() => decrementcart(product._id)}
                   className="p-3 hover:bg-gray-200 transition-colors text-gray-600 active:scale-90"
                 >
                   <Minus size={18} strokeWidth={3} />
@@ -80,7 +77,7 @@ const Singlepage = () => {
                   {quantity}
                 </span>
                 <button
-                  onClick={increment}
+                  onClick={() => incrementcart(product._id)}
                   className="p-3 hover:bg-gray-200 transition-colors text-gray-600 active:scale-90"
                 >
                   <Plus size={18} strokeWidth={3} />

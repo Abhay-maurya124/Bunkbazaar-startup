@@ -8,14 +8,12 @@ const Cart = () => {
 
   const totalPrice = cartstate.reduce((acc, item) => {
     const price = item.productId?.price || 0;
-    // Fallback to 0 if discountPercentage is missing
     const discount = item.productId?.discountPercentage || 0;
     const quantity = item.quantity || 1;
 
     const finalPrice = price / (1 - discount / 100);
     return acc + (finalPrice * quantity);
   }, 0);
-
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
@@ -30,61 +28,70 @@ const Cart = () => {
         ) : (
           <div className="space-y-6">
             <div className="flex flex-col gap-4">
-              {cartstate.map((item) => (
-                <div
-                  // FIX: Use item._id or item.productId._id for a unique key
-                  key={item._id}
-                  className="bg-white border border-gray-200 rounded-xl p-4 flex flex-col sm:flex-row items-center gap-6 hover:shadow-md transition-all duration-300"
-                >
-                  <div className="w-28 h-28 shrink-0 bg-gray-200 rounded-lg overflow-hidden border border-gray-100">
-                    <Link to={`/singlepage/${item.productId?._id}`}>
-                      <img
-                        src={item.productId?.thumbnail || item.productId?.image || item.productId?.images?.[0] || "https://placehold.co/150?text=No+Image"} alt={item.productId?.title}
-                        className="w-full h-full object-contain p-2"
-                      />
-                    </Link>
-                  </div>
-
-                  <div className="flex-1 text-center sm:text-left">
-                    <h3 className="text-lg font-bold text-gray-900 uppercase tracking-tight">
-                      {item.productId?.title || "Product"}
-                      {console.log(item.productId?.thumbnail)}
-                    </h3>
-                    <p className="text-sm text-gray-500 line-clamp-1 max-w-md">
-                      {item.productId?.description}
-                    </p>
-                    <p className="mt-2 text-indigo-600 font-bold text-lg">
-                      {/* FIX: Check for discountPercentage existence before math */}
-                      ₹{(item.productId?.price / (1 - (item.productId?.discountPercentage || 0) / 100)).toFixed(0)}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center border border-gray-200 rounded-lg bg-gray-50 overflow-hidden">
-                    <button
-                      onClick={() => decrementcart(item.productId?._id)}
-                      className="p-2.5 hover:bg-gray-200 transition-colors text-gray-600"
-                    >
-                      <Minus size={16} strokeWidth={2.5} />
-                    </button>
-                    <span className="px-4 font-bold text-gray-800 min-w-10 text-center">
-                      {item.quantity}
-                    </span>
-                    <button
-                      onClick={() => incrementcart(item.productId?._id)}
-                      className="p-2.5 hover:bg-gray-200 transition-colors text-gray-600"
-                    >
-                      <Plus size={16} strokeWidth={2.5} />
-                    </button>
-                  </div>
-
-                  <button
-                    onClick={() => removefromcart(item.productId?._id)}
-                    className="p-3 text-red-500 hover:bg-red-50 rounded-full transition-colors group"
+              {cartstate.map((item) => {
+                const product = item.productId;
+                const imagePath = product?.thumbnail || product?.image || product?.images?.[0];
+                const cleanPath = imagePath?.startsWith('/') ? imagePath.substring(1) : imagePath;
+                const finalImageSrc = imagePath?.startsWith('http')
+                  ? imagePath
+                  : `http://localhost:3000/${cleanPath}`;
+                return (
+                  <div
+                    key={item._id}
+                    className="bg-white border border-gray-200 rounded-xl p-4 flex flex-col sm:flex-row items-center gap-6 hover:shadow-md transition-all duration-300"
                   >
-                    <Trash2 size={20} className="group-hover:scale-110 transition-transform" />
-                  </button>
-                </div>
-              ))}
+                    <div className="w-28 h-28 shrink-0 bg-gray-200 rounded-lg overflow-hidden border border-gray-100">
+                      <Link to={`/singlepage/${item.productId?._id}`}>
+                        <img
+                          src={finalImageSrc || "https://placehold.co/150?text=No+Image"}
+                          alt={product?.title}
+                          className="w-full h-full object-contain p-2"
+                        />
+                      </Link>
+                    </div>
+
+                    <div className="flex-1 text-center sm:text-left">
+                      <h3 className="text-lg font-bold text-gray-900 uppercase tracking-tight">
+                        {item.productId?.title || "Product"}
+                      </h3>
+                      <p className="text-sm text-gray-500 line-clamp-1 max-w-md">
+                        {item.productId?.description}
+                      </p>
+                      <p className="mt-2 text-indigo-600 font-bold text-lg">
+                        ₹{(item.productId?.price / (1 - (item.productId?.discountPercentage || 0) / 100)).toFixed(0)}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center border border-gray-200 rounded-lg bg-gray-50 overflow-hidden">
+                      <button
+                        onClick={() => {
+                          decrementcart(item._id)
+                          console.log(item._id)
+                        }}
+                        className="p-2.5 hover:bg-gray-200 transition-colors text-gray-600"
+                      >
+                        <Minus size={16} strokeWidth={2.5} />
+                      </button>
+                      <span className="px-4 font-bold text-gray-800 min-w-10 text-center">
+                        {item.quantity}
+                      </span>
+                      <button
+                        onClick={() => incrementcart(item._id)}
+                        className="p-2.5 hover:bg-gray-200 transition-colors text-gray-600"
+                      >
+                        <Plus size={16} strokeWidth={2.5} />
+                      </button>
+                    </div>
+
+                    <button
+                      onClick={() => removefromcart(item._id)}
+                      className="p-3 text-red-500 hover:bg-red-50 rounded-full transition-colors group"
+                    >
+                      <Trash2 size={20} className="group-hover:scale-110 transition-transform" />
+                    </button>
+                  </div>
+                )
+              })}
             </div>
 
             <div className="mt-8 bg-white p-6 rounded-2xl border border-gray-200 shadow-sm flex flex-col sm:flex-row justify-between items-center gap-6">

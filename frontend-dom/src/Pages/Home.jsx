@@ -7,6 +7,7 @@ import { PiContactlessPaymentFill, PiArrowDownBold } from "react-icons/pi";
 import { GiTrade } from "react-icons/gi";
 import student from "../Assets/student.png";
 import Card from "../mini-component/Card"
+import { useCart } from '../NewContext/Cartcontext';
 const Home = () => {
   const faq = [
     { id: 1, question: "What is bunkBazzar?", answer: "bunkBazzar is a secure marketplace designed for fast, trustworthy connections between buyers and sellers, featuring integrated escrow payments." },
@@ -15,14 +16,13 @@ const Home = () => {
     { id: 4, question: "How fast are the transactions processed?", answer: "Most transactions are instant. Once both parties agree and the payment is secured, the connection is established immediately." },
     { id: 5, question: "Are there any hidden fees?", answer: "No. bunkBazzar prides itself on transparency. All pricing is shown upfront." },
   ];
-
+  const { addtocart } = useCart()
   const { Products = [] } = useProduct();
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [drop, setdrop] = useState(-1);
-  
+
   const uniqueCategories = [...new Set(Products.map((item) => item.category))];
-  
   const filteredProducts = Products.filter((item) => {
     const matchesSearch = item.title.toLowerCase().includes(search.toLowerCase()) || item.description.toLowerCase().includes(search.toLowerCase());
     const matchesCategory = selectedCategory === "" || item.category === selectedCategory;
@@ -121,7 +121,7 @@ const Home = () => {
       <div className="max-w-7xl mx-auto px-6 py-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {filteredProducts.map((item, idx) => (
-            <Card key={item._id || idx} data={item} />
+            <Card key={item._id || idx} data={item} addtocart={addtocart} />
           ))}
         </div>
 

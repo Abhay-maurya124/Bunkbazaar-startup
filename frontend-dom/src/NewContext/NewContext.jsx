@@ -10,14 +10,28 @@ export const NewContext = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [Products, setProduct] = useState([]);
     const [error, setError] = useState(null);
-
     const fetchUser = async () => {
+        const token = localStorage.getItem("accesstoken"); // Get the latest token
+
+        // If no token exists, don't even try to fetch; just set user to null
+        if (!token) {
+            setUser(null);
+            setLoading(false);
+            return;
+        }
+
         try {
-            const res = await axios.get("http://localhost:3000/user/v3/profile");
+            const res = await axios.get("http://localhost:3000/user/v3/profile", {
+                headers: {
+                    Authorization: `Bearer ${token}`, // Pass the token here
+                },
+            });
+
             if (res.data) {
                 setUser(res.data);
             }
         } catch (err) {
+            console.error("Profile fetch failed:", err);
             setUser(null);
         } finally {
             setLoading(false);
@@ -36,6 +50,8 @@ export const NewContext = ({ children }) => {
     const logoutUser = async () => {
         try {
             await axios.post("http://localhost:3000/user/v3/logout");
+            localStorage.removeItem("accesstoken"); // Clear the token!
+            localStorage.removeItem("refreshtoken");
             setUser(null);
         } catch (err) {
             console.error("Logout failed", err);
@@ -45,8 +61,7 @@ export const NewContext = ({ children }) => {
     useEffect(() => {
         fetchUser();
         fetchProducts();
-    }, []);
-
+    }, [localStorage.getItem("accesstoken")])
     return (
         <Contextprovider.Provider value={{
             Userdata,

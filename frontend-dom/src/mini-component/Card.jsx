@@ -3,8 +3,8 @@ import { useCart } from '../NewContext/Cartcontext';
 import { Link } from 'react-router-dom';
 import { ShoppingBag, Truck } from 'lucide-react';
 
-const Card = ({ data,addtocart }) => {
-  const { title, thumbnail, brand, description, price, discountPercentage, _id } = data;
+const Card = ({ data, addtocart}) => {
+  const { title, brand, thumbnail, description, price, discountPercentage, _id } = data;
   return (
     <div className="group relative bg-white border-2 border-black rounded-[2.5rem] transition-all hover:-translate-x-2 hover:-translate-y-2 hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] w-full overflow-hidden flex flex-col h-full">
       <Link to={`/singlepage/${_id}`} className="block relative h-64 border-b-4 border-black overflow-hidden bg-black">

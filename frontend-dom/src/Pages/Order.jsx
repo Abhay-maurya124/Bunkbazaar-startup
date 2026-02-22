@@ -98,7 +98,7 @@ const Order = () => {
                                 </div>
                             ) : (
                                 Product.map((item, idx) => (
-                                    <Card key={item._id || idx} data={item} addtocart={addtocart} />
+                                    <Card key={item._id || idx} data={item} addtocart={addtocart} image={item.thumbnail} />
                                 ))
                             )}
                         </div>

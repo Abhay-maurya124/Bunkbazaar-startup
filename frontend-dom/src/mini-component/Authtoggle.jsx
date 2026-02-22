@@ -5,10 +5,13 @@ import User from './User';
 
 const Authtoggle = () => {
     const { Userdata, loading } = useContext(Contextprovider);
+    const hasToken = !!localStorage.getItem("accesstoken");
 
     if (loading) return <div className="animate-pulse">...</div>;
 
-    const isAuthenticated = Userdata && (Userdata.islogged || Userdata[0]?.islogged || Userdata._id);
+    const user = Array.isArray(Userdata) ? Userdata[0] : Userdata;
+
+    const isAuthenticated = hasToken && user && (user.islogged || user._id);
 
     return (
         <div className="flex items-center">

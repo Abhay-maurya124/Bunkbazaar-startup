@@ -168,7 +168,7 @@ export const allcartitem = async (req, res) => {
 
     const cartdata = await Cart.find({ userId }).populate({
       path: "productId",
-      select: "title price image description",
+      select: "title price image description thumbnail",
     });
 
     res.status(200).json({

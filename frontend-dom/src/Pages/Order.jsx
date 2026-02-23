@@ -4,6 +4,7 @@ import Pagination from '../mini-component/Pagination'
 import { Audio } from "react-loader-spinner";
 import { Link } from 'react-router-dom';
 import { useCart } from '../NewContext/Cartcontext';
+import { useProduct } from '../NewContext/NewContext';
 
 const Order = () => {
     const { addtocart } = useCart()
@@ -13,7 +14,10 @@ const Order = () => {
     const [search, setsearch] = useState('')
     const [error, seterror] = useState(false)
     const [loading, setloading] = useState(false)
-
+    const { Userdata } = useProduct()
+    const hasToken = !!localStorage.getItem("accesstoken");
+    const user = Array.isArray(Userdata) ? Userdata[0] : Userdata;
+    const isAuthenticated = hasToken && user && (user.islogged || user._id);
     const fetchdata = async () => {
         setloading(true)
         seterror(false)
@@ -98,7 +102,7 @@ const Order = () => {
                                 </div>
                             ) : (
                                 Product.map((item, idx) => (
-                                    <Card key={item._id || idx} data={item} addtocart={addtocart} image={item.thumbnail} />
+                                    <Card key={item._id || idx} data={item} addtocart={addtocart} image={item.thumbnail} isAuthenticated={isAuthenticated} />
                                 ))
                             )}
                         </div>

@@ -10,7 +10,7 @@ const User = () => {
   const { cartstate } = useCart();
   const { Userdata } = useProduct();
 
-  const username = Userdata?.[0]?.username || "Guest";
+  const username = Userdata?.username || "Guest";
   const [toggle, settoggle] = useState(false);
 
   return (
@@ -27,7 +27,7 @@ const User = () => {
         <Link to="/wallet" className='group relative p-2.5 bg-white rounded-full transition-all duration-300 shadow-sm hover:shadow-md border border-gray-100 hover:text-amber-500'>
           <IoIosWallet size={22} />
           <span className='absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-slate-800 text-[10px] font-bold text-white ring-2 ring-white group-hover:scale-110 transition-transform'>
-            10
+            {Userdata.wallet  }
           </span>
         </Link>
 

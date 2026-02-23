@@ -15,7 +15,7 @@ import ResetPasswordWizard from './Authentication/ForgetPassword'
 import Cart from './Pages/Cart'
 import Singlepage from './Pages/Singlepage'
 import Logout from './Authentication/Logout'
-import Adminpanel from './Pages/Adminpanel'
+import Profile from './Pages/Profile'
 
 function Layout() {
   return (
@@ -44,7 +44,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="/order" element={<Order />} />
-          <Route path="/profile" element={<Adminpanel />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path='/singlepage/:id' element={<Singlepage />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/bussiness" element={<Bussiness />} />

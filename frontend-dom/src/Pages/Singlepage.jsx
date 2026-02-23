@@ -8,7 +8,7 @@ const Singlepage = () => {
   const { id } = useParams();
   const { Products, loading, error } = useProduct();
   const { addtocart, incrementcart, decrementcart } = useCart();
-
+  const isAuthenticated = localStorage.getItem("accesstoken")
   const [quantity, setQuantity] = useState(1);
 
   if (loading) return <div className="flex justify-center items-center min-h-screen text-gray-500 animate-pulse font-medium">Loading product...</div>;
@@ -84,19 +84,32 @@ const Singlepage = () => {
                 </button>
               </div>
             </div>
+            {isAuthenticated ? (<>
 
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <button
-                onClick={() => addtocart({ ...product, quantity })}
-                className="flex-1 bg-gray-900 text-white py-4 rounded-xl font-bold hover:bg-indigo-600 transition-all active:scale-95 shadow-lg shadow-gray-200"
-              >
-                Add to Cart
-              </button>
-              <button className="flex-1 border-2 border-gray-900 text-gray-900 py-4 rounded-xl font-bold hover:bg-gray-50 transition-all active:scale-95">
-                Buy Now
-              </button>
-            </div>
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <button
+                  onClick={() => addtocart({ ...product, quantity })}
+                  className="flex-1 bg-gray-900 text-white py-4 rounded-xl font-bold hover:bg-indigo-600 transition-all active:scale-95 shadow-lg shadow-gray-200"
+                >
+                  Add to Cart
+                </button>
+                <button className="flex-1 border-2 border-gray-900 text-gray-900 py-4 rounded-xl font-bold hover:bg-gray-50 transition-all active:scale-95">
+                  Buy Now
+                </button>
+              </div>
 
+            </>) : (<>
+
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <Link
+                  to="/login"
+                  className="w-full mt-2 bg-gray-200 hover:bg-black text-black hover:text-white font-black py-4 border-2 border-black rounded-2xl transition-all uppercase text-xs tracking-widest shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center gap-2"
+                >
+                  <Lock size={16} />
+                  Login to Buy
+                </Link>
+              </div>
+            </>)}
             <div className="grid grid-cols-2 gap-4 text-sm pt-4 border-t border-gray-100">
               <div className="flex items-center gap-2">
                 <Package size={16} className="text-gray-400" />

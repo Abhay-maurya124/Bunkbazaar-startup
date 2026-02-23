@@ -51,10 +51,6 @@ const cartReducer = (state, action) => {
             return state;
     }
 };
-
-
-
-
 export const Cartcontextdata = ({ children }) => {
     const [cartstate, dispatch] = useReducer(cartReducer, []);
     const { Userdata } = useProduct()

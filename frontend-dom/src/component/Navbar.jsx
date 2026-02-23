@@ -13,7 +13,7 @@ const Navbar = () => {
                     <img src={logo} alt="Bunk Bazaar Logo" className='h-12 md:h-16' />
                     <Link to='/' className="group">
                         <h3 className='text-slate-900 text-3xl md:text-4xl font-black tracking-tighter uppercase italic'>
-                            Bunk <span className='text-amber-500 group-hover:text-black transition-colors'>Bazaar</span>
+                            market <span className='text-amber-500 group-hover:text-black transition-colors'>taste</span>
                         </h3>
                     </Link>
                 </div>

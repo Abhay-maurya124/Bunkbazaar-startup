@@ -12,6 +12,11 @@ export const userschema = yup.object({
     .min(4, "password must be at least 4 characters")
     .required(),
   email: yup.string().email("invalid email format").required(),
+  phone: yup
+    .string()
+    .matches(/^[0-9]{10}$/, "Phone number must be exactly 10 digits")
+    .required("Phone number is required"),
+  location: yup.string().trim().default("Not provided"),
 });
 
 export const validateuser = async (req, res, next) => {
@@ -20,9 +25,9 @@ export const validateuser = async (req, res, next) => {
     next();
   } catch (error) {
     // This stops the "hanging" request and tells the user what's wrong
-    return res.status(400).json({ 
+    return res.status(400).json({
       success: false,
-      errors: error.errors 
+      errors: error.errors,
     });
   }
 };

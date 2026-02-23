@@ -10,6 +10,8 @@ const userschema = new mongoose.Schema(
     otp: { type: String, default: null },
     otpexpiry: { type: Date, default: null },
     wallet: { type: Number, default: 5 },
+    phone: { type: Number, default: 1234567890 },
+    location: { type: String, default: null },
   },
   { timestamps: true },
 );

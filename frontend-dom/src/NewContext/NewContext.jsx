@@ -11,24 +11,22 @@ export const NewContext = ({ children }) => {
     const [Products, setProduct] = useState([]);
     const [error, setError] = useState(null);
     const fetchUser = async () => {
-        const token = localStorage.getItem("accesstoken"); // Get the latest token
-
-        // If no token exists, don't even try to fetch; just set user to null
+        const token = localStorage.getItem("accesstoken");
         if (!token) {
             setUser(null);
             setLoading(false);
             return;
         }
-
         try {
             const res = await axios.get("http://localhost:3000/user/v3/profile", {
                 headers: {
-                    Authorization: `Bearer ${token}`, // Pass the token here
+                    Authorization: `Bearer ${token}`,
                 },
             });
-
+            
             if (res.data) {
                 setUser(res.data);
+                console.log(res.data)
             }
         } catch (err) {
             console.error("Profile fetch failed:", err);
@@ -37,7 +35,6 @@ export const NewContext = ({ children }) => {
             setLoading(false);
         }
     };
-
     const fetchProducts = async () => {
         try {
             const res = await axios.get("http://localhost:3000/api/products/all");
@@ -62,13 +59,13 @@ export const NewContext = ({ children }) => {
         fetchUser();
         fetchProducts();
     }, [localStorage.getItem("accesstoken")])
+
     return (
         <Contextprovider.Provider value={{
             Userdata,
             setUser,
-            fetchUser,
-            userdata: fetchUser,
             logoutUser,
+            fetchUser,
             loading,
             Products,
             setProduct,

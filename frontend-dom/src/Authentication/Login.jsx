@@ -2,11 +2,11 @@ import axios from 'axios'
 import React, { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
-import { Contextprovider } from '../NewContext/NewContext';
+import { Contextprovider, useProduct } from '../NewContext/NewContext';
 
 const Login = () => {
   const navigate = useNavigate()
-  const { userdata } = useContext(Contextprovider)
+  const { userdata, fetchUser } = useProduct()
 
   const [Change, setChange] = useState({
     email: '',
@@ -34,6 +34,7 @@ const Login = () => {
       if (res.data.success) {
         localStorage.setItem("accesstoken", res.data.accesstoken)
         localStorage.setItem("refreshtoken", res.data.refreshtoken)
+        await fetchUser();
         toast.update(toastId, { render: "Welcome back!", type: "success", isLoading: false, autoClose: 2000 });
         if (userdata) {
           await userdata();
@@ -57,6 +58,8 @@ const Login = () => {
           <h1 className="text-3xl font-bold text-white text-center mb-6">
             Login Now
           </h1>
+          <Link to={"/"} className="w-full px-4 py-3 mb-2 rounded-lg bg-red-800 text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-amber-500"
+          > go to home</Link>
           <form onSubmit={handlesubmit} className='space-y-4'>
             <input
               type="email"

@@ -9,6 +9,8 @@ import "./modules/Product.js";
 import database from "./modules/database.js";
 import route from "./routes/userroutes.js";
 import cartroute from "./routes/Cartroutes.js";
+import { isAuthentication } from "./middleware/isAuthenticated.js";
+import { User } from "./modules/userschema.js";
 
 const app = express();
 database();
@@ -63,20 +65,17 @@ app.get("/api/products/all", async (req, res) => {
     });
   }
 });
-app.get("/user/v3/profile", async (req, res) => {
+app.get("/user/v3/profile", isAuthentication, async (req, res) => {
   try {
-    const user = await mongoose.connection.db
-      .collection("users")
-      .find({})
-      .toArray();
-    res.json(user);
-  } catch (err) {
-    console.error("Error in /api/profile:", err);
+    const user = await User.findById(req.userId).select("-password"); 
 
-    res.status(500).json({
-      message: "Error fetching products",
-      error: err.message,
-    });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user); 
+  } catch (err) {
+    console.error("Error in /user/v3/profile:", err);
+    res.status(500).json({ message: "Error fetching profile", error: err.message });
   }
 });
 app.use("/user/v3", route);

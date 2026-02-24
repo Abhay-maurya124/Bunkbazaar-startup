@@ -2,7 +2,9 @@ import React from 'react'
 
 const Adminpanel = () => {
   return (
-    <div>Adminpanel</div>
+    <div>
+      
+    </div>
   )
 }
 

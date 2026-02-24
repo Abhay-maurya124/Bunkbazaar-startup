@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Routes, Outlet } from 'react-router-dom'
 import Order from './Pages/Order'
 import Navbar from './component/Navbar'
 import Career from './Pages/Career'
-import Bussiness from './Pages/Bussiness'
+import Adminpanel from './Pages/Adminpanel'
 import Register from './Authentication/Register'
 import Login from './Authentication/Login'
 import Verify from './Authentication/Verify'
@@ -47,7 +47,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path='/singlepage/:id' element={<Singlepage />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/bussiness" element={<Bussiness />} />
+          <Route path="/bussiness" element={<Adminpanel />} />
           <Route path="/career" element={<Career />} />
           <Route path="/blog" element={<Blog />} />
         </Route>

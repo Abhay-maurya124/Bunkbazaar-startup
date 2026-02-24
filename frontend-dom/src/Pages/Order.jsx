@@ -98,7 +98,7 @@ const Order = () => {
                             {loading ? (
                                 <div className='col-span-full h-80 w-full flex justify-center flex-col items-center bg-white border-4 border-dashed border-black rounded-[3rem]'>
                                     <Audio height="80" width="80" color="#000" ariaLabel="loading" />
-                                    <h3 className='text-2xl font-bold mt-4 uppercase italic tracking-tighter'>Scouring the aisles...</h3>
+                                    <h3 className='text-2xl font-bold mt-4 uppercase italic tracking-tighter'>Finding the items</h3>
                                 </div>
                             ) : (
                                 Product.map((item, idx) => (

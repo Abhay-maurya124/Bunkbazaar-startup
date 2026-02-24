@@ -11,7 +11,6 @@ const Pagination = ({ setpage, setslice, page }) => {
 
   return (
     <div className="flex justify-center items-center gap-4 my-6">
-      {/* Previous */}
       <button
         onClick={handleDecrement}
         className="
@@ -27,10 +26,7 @@ const Pagination = ({ setpage, setslice, page }) => {
         —
       </button>
 
-      {/* Current Page */}
       <p className="text-xl font-bold text-gray-800">{page}</p>
-
-      {/* Next */}
       <button
         onClick={handleIncrement}
         className="

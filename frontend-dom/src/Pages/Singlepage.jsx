@@ -29,7 +29,7 @@ const Singlepage = () => {
             <img
               src={product.thumbnail || product.images?.[0]}
               alt={product.title}
-              className="w-full h-auto max-h-[500px] object-contain transform hover:scale-105 transition-transform duration-500"
+              className="w-full h-auto max-h-125 object-contain transform hover:scale-105 transition-transform duration-500"
             />
           </div>
 
@@ -73,7 +73,7 @@ const Singlepage = () => {
                 >
                   <Minus size={18} strokeWidth={3} />
                 </button>
-                <span className="px-6 font-black text-gray-900 text-lg min-w-[60px] text-center">
+                <span className="px-6 font-black text-gray-900 text-lg min-w-15 text-center">
                   {quantity}
                 </span>
                 <button

@@ -134,17 +134,21 @@ export const Cartcontextdata = ({ children }) => {
             console.error("Decrement failed", error);
         }
     };
-    const clearAll = async () => {
-        const Token = localStorage.getItem("accesstoken")
-
-        const res = await axios.post(`http://localhost:3000/user/cart/clearall`, {
+   const clearAll = async () => {
+    const Token = localStorage.getItem("accesstoken");
+    try {
+        // Change .post to .delete to match your backend route
+        const res = await axios.delete(`http://localhost:3000/user/cart/clearall`, {
             headers: {
                 "Authorization": `Bearer ${Token}`,
                 "Content-Type": "application/json"
             }
-        })
-        dispatch({ type: "CART_CLEAR" })
-    };
+        });
+        dispatch({ type: "CART_CLEAR" });
+    } catch (error) {
+        console.error("Clear cart failed", error);
+    }
+};
 
     const synccart = async () => {
         const Token = localStorage.getItem("accesstoken")

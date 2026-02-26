@@ -1,69 +1,84 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { IoIosWallet } from "react-icons/io";
-import { FaShoppingCart } from "react-icons/fa";
-import { IoPersonCircleOutline, IoLogOutOutline, IoPersonOutline } from "react-icons/io5";
-import { useCart } from '../NewContext/Cartcontext';
-import { useProduct } from '../NewContext/NewContext';
+import logo from '../Assets/logo.png';
+import Authtoggle from '../mini-component/Authtoggle';
 
-const User = () => {
-  const { cartstate } = useCart();
-  const { Userdata } = useProduct();
+const Navbar = () => {
+  const [open, setOpen] = useState(false);
 
-  const username = Userdata?.username || "Guest";
-  const [toggle, settoggle] = useState(false);
+  const links = [
+    { to: '/', label: 'Home' },
+    { to: '/order', label: 'Products' },
+    { to: '/bussiness', label: 'Bussiness' },
+    { to: '/career', label: 'Career' },
+    { to: '/blog', label: 'Blog' },
+  ];
 
   return (
-    <div className="relative">
-      <div className='hidden xl:flex items-center gap-6 font-semibold uppercase text-sm tracking-tight text-slate-700'>
-
-        <Link to="/cart" className='group relative p-2.5 bg-white rounded-full transition-all duration-300 shadow-sm hover:shadow-md border border-gray-100 hover:text-amber-500'>
-          <FaShoppingCart size={22} />
-          <span className='absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-[10px] font-bold text-white ring-2 ring-white group-hover:scale-110 transition-transform'>
-            {cartstate.length}
-          </span>
-        </Link>
-
-        <Link to="/wallet" className='group relative p-2.5 bg-white rounded-full transition-all duration-300 shadow-sm hover:shadow-md border border-gray-100 hover:text-amber-500'>
-          <IoIosWallet size={22} />
-          <span className='absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-slate-800 text-[10px] font-bold text-white ring-2 ring-white group-hover:scale-110 transition-transform'>
-            {Userdata.wallet  }
-          </span>
-        </Link>
-
-        <div
-          onClick={() => settoggle(!toggle)}
-          className={`flex items-center gap-2 cursor-pointer p-1.5 pr-4 rounded-full transition-all duration-300 border 
-            ${toggle ? 'bg-amber-50 border-amber-200 text-amber-600' : 'bg-white border-gray-100 hover:border-amber-200 hover:bg-gray-50'}`}
-        >
-          <IoPersonCircleOutline size={32} />
-          <span className="normal-case font-bold">{username}</span>
+    <header className="sticky top-0 z-50 w-full bg-white border-b-4 border-black px-3 md:px-12 py-3">
+      <nav className="flex items-center justify-between max-w-6xl mx-auto">
+        
+        {/* LOGO SECTION */}
+        <div className="flex items-center gap-2">
+          {/* h-14 (56px) on mobile, back to md:h-16 (64px) for desktop */}
+          <img src={logo} alt="Bunk Bazaar Logo" className="h-14 md:h-16 object-contain" />
+          <Link to="/" className="group">
+            {/* Kept your original logic: hidden on mobile, block on lg screens */}
+            <h3 className="hidden lg:block text-slate-900 text-2xl md:text-4xl font-black tracking-tighter uppercase italic">
+              Bunk <span className="text-amber-500 group-hover:text-black transition-colors">bazaar</span>
+            </h3>
+          </Link>
         </div>
 
-        {toggle && (
-          <>
-            <div className="fixed inset-0 z-10" onClick={() => settoggle(false)}></div>
+        {/* RIGHT SECTION: Spacing refactored for mobile vs desktop */}
+        <div className="flex items-center gap-2 md:gap-8">
+          
+          {/* DESKTOP LINKS: Untouched original code */}
+          <div className="hidden lg:flex items-center gap-8">
+            <ul className="flex items-center gap-6 font-black uppercase text-sm tracking-tight text-slate-700">
+              {links.map((l) => (
+                <li key={l.to} className="hover:text-amber-500 transition-colors">
+                  <Link to={l.to}>{l.label}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            <div className='absolute z-20 top-16 right-0 w-48 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden py-2 animate-in fade-in zoom-in duration-200'>
-              <div className="px-4 py-2 border-b border-gray-50 mb-1">
-                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Account</p>
-              </div>
+          {/* USER ICONS: Tight gap on mobile, wider on desktop */}
+          <div className="flex items-center">
+             <Authtoggle />
+          </div>
+          
+          {/* HAMBURGER: Only shows when desktop links are hidden */}
+          <button
+            onClick={() => setOpen((s) => !s)}
+            className="lg:hidden p-2 rounded-md border-2 border-black bg-white active:bg-slate-100"
+          >
+            <svg className={`w-6 h-6 ${open ? 'rotate-90' : ''} transition-transform`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {open ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+        </div>
+      </nav>
 
-              <Link to="/profile" className='flex items-center gap-3 px-4 py-2.5 text-slate-600 hover:bg-amber-50 hover:text-amber-600 transition-colors'>
-                <IoPersonOutline size={18} />
-                <span className="capitalize font-medium">My Profile</span>
-              </Link>
-
-              <Link to='/logout' className='flex items-center gap-3 px-4 py-2.5 text-red-500 hover:bg-red-50 transition-colors'>
-                <IoLogOutOutline size={18} />
-                <span className="capitalize font-medium">Logout</span>
-              </Link>
-            </div>
-          </>
-        )}
+      {/* MOBILE MENU DROPDOWN */}
+      <div className={`lg:hidden overflow-hidden transition-all duration-300 ${open ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
+        <div className="px-4 pb-6 pt-4 border-t-4 border-black bg-white mt-3">
+          <ul className="flex flex-col gap-4 font-black uppercase text-lg tracking-tight text-slate-700">
+            {links.map((l) => (
+              <li key={l.to} onClick={() => setOpen(false)} className="hover:text-amber-500">
+                <Link to={l.to}>{l.label}</Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
-    </div>
+    </header>
   );
 };
 
-export default User;
+export default Navbar;

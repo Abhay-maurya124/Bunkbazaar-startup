@@ -11,35 +11,44 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 /* registration handle the user data and also collect the data =of username,email,password. so it can add the only original data ,not the fake one . by sending the verification mail with token and also hashed the password using the bcrypt property for the secure password and generating the uniqe token for the user*/
 export const register = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
-
-    if (!username || !email || !password) {
-      return res
-        .status(400)
-        .json({ success: false, message: "All fields are required" });
+    // 1. Destructure all possible incoming fields
+    const { username, email, password, role, phone, location } = req.body;
+    if (!username || !email || !password || !role || !location || !phone) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "All fields are required (Username, Email, Password, Role, Phone, and Address/Location)" 
+      });
     }
+
     const existinguser = await User.findOne({ email });
     if (existinguser) {
-      return res
-        .status(400)
-        .json({ success: false, message: "User already exists" });
+      return res.status(400).json({ success: false, message: "User already exists" });
     }
+
     const hashpassword = await bcrypt.hash(password, 10);
+
+    // 4. Create User (CRITICAL: You missed adding phone/location in your original code)
     const newuser = await User.create({
       email,
       username,
       password: hashpassword,
+      role: role || "user",
+      phone,
+      location // Maps 'finalAddress' to your schema's 'location' field
     });
-    const token = jwt.sign({ id: newuser._id }, process.env.SECRET_KEY, {
-      expiresIn: "10m",
-    });
+
+    const token = jwt.sign(
+      { id: newuser._id, role: newuser.role },
+      process.env.SECRET_KEY,
+      { expiresIn: "10m" },
+    );
 
     await verifymail(token, email);
 
     return res.status(201).json({
       success: true,
       token,
-      message: "User created successfully",
+      message: "User created successfully. Please verify your email.",
       data: newuser,
     });
   } catch (error) {
@@ -142,9 +151,11 @@ export const login = async (req, res) => {
       });
     }
 
-    const accesstoken = jwt.sign({ id: user._id }, process.env.SECRET_KEY, {
-      expiresIn: "10d",
-    });
+    const accesstoken = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.SECRET_KEY,
+      { expiresIn: "10d" },
+    );
     const refreshtoken = jwt.sign({ id: user._id }, process.env.SECRET_KEY, {
       expiresIn: "30d",
     });
@@ -175,7 +186,7 @@ export const login = async (req, res) => {
 // logout function stated to logout the user from the web and setting the islooged to false and detele their all sessions
 export const logout = async (req, res) => {
   try {
-    const userid = req.userId ;
+    const userid = req.userId;
     await tempSession.findByIdAndDelete(userid);
     await User.findByIdAndUpdate(userid, { islogged: false });
     return res.status(201).json({
@@ -278,4 +289,3 @@ export const changepassword = async (req, res) => {
     return res.status(500).json({ success: false, message: error.message });
   }
 };
-

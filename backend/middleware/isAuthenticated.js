@@ -10,7 +10,6 @@ export const isAuthentication = (req, res, next) => {
         message: "Access token is missing or invalid",
       });
     }
-
     const token = authHeader.split(" ")[1];
 
     jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {

@@ -17,81 +17,66 @@ const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b-4 border-black px-4 md:px-12 py-3">
       <nav className="flex items-center justify-between max-w-6xl mx-auto">
+        
+        {/* LOGO SECTION */}
         <div className="flex items-center gap-2">
-          <img src={logo} alt="Bunk Bazaar Logo" className="h-10 md:h-16" />
+          {/* h-14 for mobile (Larger), md:h-16 for desktop (Your original) */}
+          <img src={logo} alt="Bunk Bazaar Logo" className="h-14 md:h-16 object-contain" />
           <Link to="/" className="group">
-            <h3 className="text-slate-900 text-2xl md:text-4xl font-black tracking-tighter uppercase italic">
+            {/* hidden on mobile, flex on large screens - Your original style */}
+            <h3 className="hidden lg:block text-slate-900 text-2xl md:text-4xl font-black tracking-tighter uppercase italic">
               Bunk <span className="text-amber-500 group-hover:text-black transition-colors">bazaar</span>
             </h3>
           </Link>
         </div>
 
-        <div className="hidden md:flex flex-1 max-w-md mx-6">
-          <input
-            type="text"
-            placeholder="Search campus gear..."
-            className="w-full h-12 px-5 border-4 border-black rounded-xl font-bold placeholder:text-slate-400 focus:bg-amber-50 outline-none transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:shadow-none focus:translate-x-1 focus:translate-y-1"
-          />
-        </div>
+        {/* RIGHT SECTION: Grouping Icons + Hamburger with better mobile spacing */}
+        <div className="flex items-center gap-3 md:gap-8">
+          
+          {/* Desktop Navigation Links - Your original logic */}
+          <div className="hidden lg:flex items-center gap-8">
+            <ul className="flex items-center gap-6 font-black uppercase text-sm tracking-tight text-slate-700">
+              {links.map((l) => (
+                <li key={l.to} className="hover:text-amber-500 transition-colors">
+                  <Link to={l.to}>{l.label}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        <div className="hidden lg:flex items-center gap-8">
-          <ul className="flex items-center gap-6 font-black uppercase text-sm tracking-tight text-slate-700">
-            {links.map((l) => (
-              <li key={l.to} className="hover:text-amber-500 transition-colors cursor-pointer">
-                <Link to={l.to}>{l.label}</Link>
-              </li>
-            ))}
-          </ul>
+          {/* User Icons (Authtoggle) - Always visible */}
           <Authtoggle />
-        </div>
-
-        <div className="flex items-center lg:hidden">
+          
+          {/* Hamburger Button - Only visible on mobile/tablet */}
           <button
-            aria-label="Toggle menu"
-            aria-expanded={open}
             onClick={() => setOpen((s) => !s)}
-            className="p-2 rounded-md border-2 border-black"
+            className="lg:hidden p-2 rounded-md border-2 border-black bg-white active:bg-slate-100"
           >
-            <svg className={`w-6 h-6 ${open ? 'rotate-90' : ''} transition-transform`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg className={`w-6 h-6 ${open ? 'rotate-90' : ''} transition-transform`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {open ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
               ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M4 6h16M4 12h16M4 18h16" />
               )}
             </svg>
           </button>
         </div>
       </nav>
 
-      <div
-        className={`lg:hidden overflow-hidden transition-all duration-200 ease-in-out ${open ? 'max-h-[420px] opacity-100' : 'max-h-0 opacity-0'}`}
-        aria-hidden={!open}
-      >
-        <div className="px-4 pb-4 pt-3 border-t-4 border-black bg-white">
-          <div className="mb-3">
-            <input
-              type="text"
-              placeholder="Search campus gear..."
-              className="w-full h-11 px-4 border-4 border-black rounded-xl font-bold placeholder:text-slate-400 focus:bg-amber-50 outline-none transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:shadow-none"
-            />
-          </div>
-
-        
-          <ul className="flex flex-col gap-3 font-black uppercase text-base tracking-tight text-slate-700">
+      {/* MOBILE MENU DROPDOWN */}
+      <div className={`lg:hidden overflow-hidden transition-all duration-300 ${open ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
+        <div className="px-4 pb-6 pt-4 border-t-4 border-black bg-white mt-3">
+          <ul className="flex flex-col gap-4 font-black uppercase text-lg tracking-tight text-slate-700">
             {links.map((l) => (
-              <li key={l.to} onClick={() => setOpen(false)} className="py-2 px-2 hover:bg-amber-50 rounded-md">
+              <li key={l.to} onClick={() => setOpen(false)} className="hover:text-amber-500">
                 <Link to={l.to}>{l.label}</Link>
               </li>
             ))}
           </ul>
-
-          <div className="mt-4">
-            <Authtoggle />
-          </div>
         </div>
       </div>
     </header>
   );
 };
 
-export default Navbar;      
+export default Navbar;  

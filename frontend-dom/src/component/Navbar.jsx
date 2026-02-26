@@ -64,7 +64,7 @@ const Navbar = () => {
       </nav>
 
       {/* MOBILE MENU DROPDOWN */}
-      <div className={`lg:hidden overflow-hidden transition-all duration-300 ${open ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
+      <div className={`lg:hidden overflow-hidden transition-all duration-300 ${open ? 'max-h-125 opacity-100' : 'max-h-0 opacity-0'}`}>
         <div className="px-4 pb-6 pt-4 border-t-4 border-black bg-white mt-3">
           <ul className="flex flex-col gap-4 font-black uppercase text-lg tracking-tight text-slate-700">
             {links.map((l) => (

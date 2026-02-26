@@ -51,7 +51,7 @@ const handlesubmit = async (e) => {
       <ToastContainer theme="dark" />
       
       {loading ? (
-        <div className='w-full max-w-md h-[550px] flex justify-center flex-col items-center bg-white border-4 border-dashed border-gray-900 rounded-[3rem] shadow-2xl'>
+        <div className='w-full max-w-md h-137.5 flex justify-center flex-col items-center bg-white border-4 border-dashed border-gray-900 rounded-[3rem] shadow-2xl'>
           <Audio height="80" width="80" color="#f59e0b" ariaLabel="loading" />
           <h3 className='text-2xl font-black mt-4 uppercase italic tracking-tighter'>Processing...</h3>
         </div>
